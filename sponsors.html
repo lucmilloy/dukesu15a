@@ -4,35 +4,85 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sponsors | Cumberland Dukes U15A1</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="style.css">
 <style>
-    /* Add any custom styles here if needed */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #1a202c;
+        background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
+        background-size: cover;
+        background-position: center;
+        color: #e2e8f0;
+    }
+    header {
+        text-align: center;
+        padding: 1rem;
+    }
     .sponsor-section {
         margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: rgba(30, 41, 59, 0.9);
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .sponsor-logos {
         display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: 2rem;
         justify-content: center;
         align-items: center;
+        padding: 1rem;
     }
     .sponsor-logos img {
         display: block;
         height: auto;
+        border-radius: 0.5rem;
+        transition: transform 0.3s ease-in-out;
+    }
+    .sponsor-logos img:hover {
+        transform: scale(1.05);
     }
     .platinum img {
-        max-width: 100%;
+        max-width: 50%;
     }
     .gold img {
         max-width: 25%;
     }
     .silver img {
-        max-width: 25%;
+        max-width: 18.75%; /* 75% of 25% */
+    }
+    .bronze img {
+        max-width: 15%; /* 60% of 25% */
+    }
+    h2, h3 {
+        color: #f59e0b;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    nav ul {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+        list-style: none;
+        padding: 0;
+    }
+    nav a {
+        color: #a0aec0;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+    nav a:hover {
+        color: #f59e0b;
     }
 </style>
 </head>
-<body>
+<body class="text-white">
 <header>
 <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo">
 <h1>Cumberland Dukes U15A1</h1>
@@ -48,46 +98,45 @@
 </nav>
 <main>
 <section>
-<h2>Our Sponsors</h2>
-<p>We would like to thank our generous sponsors for supporting the Cumberland Dukes U15A1 team:</p>
-<div class="sponsor-section">
-    <h3>Platinum Sponsors</h3>
-    <div class="sponsor-logos platinum">
-        <img src="images/platinum.png" alt="Platinum Sponsor">
+    <div class="container mx-auto p-4 md:p-10 max-w-7xl">
+        <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-wide">Our Sponsors</h2>
+        <p class="text-center text-gray-400 max-w-3xl mx-auto mb-12">We would like to thank our generous sponsors for supporting the Cumberland Dukes U15A1 team:</p>
+        
+        <div class="sponsor-section">
+            <h3 class="text-2xl">Platinum Sponsors</h3>
+            <div class="sponsor-logos platinum">
+                <img src="images/platinum.png" alt="Platinum Sponsor">
+            </div>
+        </div>
+        
+        <div class="sponsor-section">
+            <h3 class="text-2xl">Gold Sponsors</h3>
+            <div class="sponsor-logos gold">
+                <img src="images/gold.png" alt="Gold Sponsor">
+                <img src="images/gold.png" alt="Gold Sponsor">
+                <img src="images/gold.png" alt="Gold Sponsor">
+            </div>
+        </div>
+        
+        <div class="sponsor-section">
+            <h3 class="text-2xl">Silver Sponsors</h3>
+            <div class="sponsor-logos silver">
+                <img src="images/silver.png" alt="Silver Sponsor">
+                <img src="images/silver.png" alt="Silver Sponsor">
+                <img src="images/silver.png" alt="Silver Sponsor">
+            </div>
+        </div>
+        
+        <div class="sponsor-section">
+            <h3 class="text-2xl">Bronze Sponsors</h3>
+            <div class="sponsor-logos bronze">
+                <img src="images/bronze.png" alt="Bronze Sponsor">
+                <img src="images/bronze.png" alt="Bronze Sponsor">
+                <img src="images/bronze.png" alt="Bronze Sponsor">
+                <img src="images/bronze.png" alt="Bronze Sponsor">
+            </div>
+        </div>
     </div>
-</div>
-<div class="sponsor-section">
-    <h3>Gold Sponsors</h3>
-    <div class="sponsor-logos gold">
-        <img src="images/gold.png" alt="Gold Sponsor">
-        <img src="images/gold.png" alt="Gold Sponsor">
-        <img src="images/gold.png" alt="Gold Sponsor">
-    </div>
-</div>
-<div class="sponsor-section">
-    <h3>Silver Sponsors</h3>
-    <div class="sponsor-logos silver">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-    </div>
-</div>
-<div class="sponsor-section">
-    <h3>Bronze Sponsors</h3>
-    <div class="sponsor-logos silver">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-        <img src="images/silver.png" alt="Silver Sponsor">
-    </div>
-</div>
 </section>
 </main>
 <footer>&copy; 2025 Cumberland Dukes U15A1</footer>
