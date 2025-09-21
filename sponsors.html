@@ -6,115 +6,41 @@
   <title>Sponsors | Cumberland Dukes U15A1</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #1a202c;
-      background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
-      background-size: cover;
-      background-position: center;
-      color: #e2e8f0;
-    }
-    .sponsor-section {
-      margin-bottom: 2.5rem;
-      padding: 1rem;
-      background-color: rgba(30, 41, 59, 0.9);
-      border-radius: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    .sponsor-logos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      align-items: center;
-      margin-top: 1.5rem;
-      padding: 1rem;
-    }
-    /* Sizing for the logos based on user request and mobile responsiveness */
-    .platinum img {
-        height: 8rem;
-    }
-    .gold img {
-        height: 4rem;
-    }
-    .silver img {
-        height: 3rem;
-    }
-    .bronze img {
-        height: 2rem;
-    }
-    .sponsor-logos img {
-        max-width: 100%;
-        object-fit: contain;
-        transition: transform 0.3s ease-in-out;
-    }
-    .sponsor-logos img:hover {
-      transform: scale(1.05);
-    }
-    h2, h3 {
-      color: #f59e0b;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      margin: 1.5rem 0;
-      list-style: none;
-      padding: 0;
-    }
-    nav a {
-      color: #a0aec0;
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.3s ease-in-out;
-    }
-    nav a:hover {
-      color: #f59e0b;
-    }
-  </style>
 </head>
 <body class="text-white">
 
-  <header class="flex flex-col items-center justify-center p-4">
-    <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo" class="w-32 md:w-48 h-auto">
-    <h1 class="text-4xl md:text-6xl font-bold mt-4">Cumberland Dukes U15A1</h1>
+  <header class="text-center py-6">
+    <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo" class="mx-auto w-32 md:w-48">
+    <h1 class="text-2xl md:text-4xl font-bold mt-4">Cumberland Dukes U15A1</h1>
   </header>
 
   <nav>
     <ul>
-      <li><a href="index.html" class="hover:text-yellow-500">Home</a></li>
-      <li><a href="sponsors.html" class="text-yellow-500 font-bold">Sponsors</a></li>
-      <li><a href="sponsorship.html" class="hover:text-yellow-500">Sponsorship</a></li>
-      <li><a href="schedule.html" class="hover:text-yellow-500">Schedule</a></li>
-      <li><a href="contact.html" class="hover:text-yellow-500">Contact Us</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sponsors.html">Sponsors</a></li>
+      <li><a href="sponsorship.html">Sponsorship</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
     </ul>
   </nav>
 
-  <main class="container mx-auto p-4 md:p-10 max-w-4xl">
+  <main>
     <section>
-        <header class="text-center mb-8 md:mb-12">
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-100 uppercase tracking-wide">Our Sponsors</h2>
-            <p class="text-center text-gray-400 max-w-3xl mx-auto mt-4">
-              We would like to thank our generous sponsors for supporting the Cumberland Dukes U15A1 team:
-            </p>
-        </header>
+      <div class="container mx-auto p-4 md:p-10 max-w-7xl">
+        <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-wide">Our Sponsors</h2>
+        <p class="text-center text-gray-400 max-w-3xl mx-auto mb-12">
+          We would like to thank our generous sponsors for supporting the Cumberland Dukes U15A1 team:
+        </p>
         
         <div class="sponsor-section">
-          <h3 class="text-2xl font-bold">Platinum Sponsor</h3>
+          <h3 class="text-2xl">Platinum Sponsor</h3>
           <div class="sponsor-logos platinum">
             <img src="images/platinum.png" alt="Platinum Sponsor">
           </div>
         </div>
         
         <div class="sponsor-section">
-          <h3 class="text-2xl font-bold">Gold Sponsors</h3>
+          <h3 class="text-2xl">Gold Sponsors</h3>
           <div class="sponsor-logos gold">
             <img src="images/gold.png" alt="Gold Sponsor">
             <img src="images/gold.png" alt="Gold Sponsor">
@@ -123,7 +49,7 @@
         </div>
         
         <div class="sponsor-section">
-          <h3 class="text-2xl font-bold">Silver Sponsors</h3>
+          <h3 class="text-2xl">Silver Sponsors</h3>
           <div class="sponsor-logos silver">
             <img src="images/silver.png" alt="Silver Sponsor">
             <img src="images/silver.png" alt="Silver Sponsor">
@@ -132,7 +58,7 @@
         </div>
         
         <div class="sponsor-section">
-          <h3 class="text-2xl font-bold">Bronze Sponsors</h3>
+          <h3 class="text-2xl">Bronze Sponsors</h3>
           <div class="sponsor-logos bronze">
             <img src="images/bronze.png" alt="Bronze Sponsor">
             <img src="images/bronze.png" alt="Bronze Sponsor">
@@ -140,10 +66,11 @@
             <img src="images/bronze.png" alt="Bronze Sponsor">
           </div>
         </div>
+      </div>
     </section>
   </main>
 
-  <footer class="text-center py-6 mt-12 text-gray-400">
+  <footer class="text-center py-6 text-gray-400">
     &copy; 2025 Cumberland Dukes U15A1
   </footer>
 
