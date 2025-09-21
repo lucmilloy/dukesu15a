@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Us | Cumberland Dukes U15A1</title>
-<link rel="stylesheet" href="style.css">
-<style>
-    /* Add any custom styles here if needed */
-    .contact-info {
-        text-align: center;
-        margin-top: 2rem;
-    }
-    .contact-info p {
-        margin-bottom: 1rem;
-    }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Cumberland Dukes U15A1</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<header>
-<img src="images/dukes-logo.png" alt="Cumberland Dukes Logo">
-<h1>Cumberland Dukes U15A1</h1>
-</header>
-<nav>
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="sponsors.html">Sponsors</a></li>
-<li><a href="sponsorship.html">Sponsorship</a></li>
-<li><a href="schedule.html">Schedule</a></li>
-<li><a href="contact.html">Contact Us</a></li>
-</ul>
-</nav>
-<main>
-<section>
-<h2>Contact Us</h2>
-<p>For any inquiries about the team, sponsorships, or partnership opportunities, please contact us at the email below.</p>
-<div class="contact-info">
-    <p><strong>Email:</strong> <a href="mailto:LucMilloy@gmail.com">LucMilloy@gmail.com</a></p>
-</div>
-</section>
-</main>
-<footer>&copy; 2025 Cumberland Dukes U15A1</footer>
+  <header>
+    <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo" class="logo">
+    <h1>Cumberland Dukes U15A1</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sponsors.html">Sponsors</a></li>
+        <li><a href="sponsorship.html">Sponsorship</a></li>
+        <li><a href="schedule.html">Schedule</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Contact Us</h2>
+      <p>If you’d like to get in touch with the Cumberland Dukes U15A1 team, please fill out the form below and we’ll get back to you as soon as possible.</p>
+      
+      <form action="https://formspree.io/f/mwpngoda" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Your email address:</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="5" required></textarea><br>
+
+        <input type="hidden" name="_subject" value="Dukes U15A1 Contact Request">
+        <input type="submit" value="Send Message">
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Cumberland Dukes U15A1</p>
+  </footer>
 </body>
 </html>
