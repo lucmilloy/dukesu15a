@@ -1,36 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cumberland Dukes U15A1</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Cumberland Dukes U15A1</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1a202c;
+      background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+  </style>
 </head>
-<body>
-<header>
-<img src="images/dukes-logo.png" alt="Cumberland Dukes Logo">
-<h1>Cumberland Dukes U15A1</h1>
-</header>
-<nav>
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="sponsors.html">Sponsors</a></li>
-<li><a href="sponsorship.html">Sponsorship</a></li>
-<li><a href="schedule.html">Schedule</a></li>
-<li><a href="contact.html">Contact Us</a></li>
-</ul>
-</nav>
-<main>
-<section>
-<h2>Welcome!</h2>
-<p>Welcome to the official website of the Cumberland Dukes U15A hockey team! Follow our season, support our sponsors, and get in touch with us for sponsorship opportunities.</p>
-</section>
-<section>
-<h2>About the Team</h2>
-<p>The Cumberland Dukes U15A1 team is dedicated to fostering young talent, promoting sportsmanship, and competing at the highest level in our league.</p>
-</section>
-</main>
-<footer>&copy; 2025 Cumberland Dukes U15A1</footer>
+<body class="text-white">
+  <header class="flex flex-col items-center justify-center p-4">
+    <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo" class="w-32 md:w-48 h-auto">
+    <h1 class="text-4xl md:text-6xl font-bold mt-4">Cumberland Dukes U15A1</h1>
+  </header>
+
+  <nav>
+    <ul class="flex justify-center space-x-6 md:space-x-10 p-4 text-lg md:text-xl">
+      <li><a href="index.html" class="text-yellow-500 font-bold">Home</a></li>
+      <li><a href="sponsors.html" class="hover:text-yellow-500">Sponsors</a></li>
+      <li><a href="sponsorship.html" class="hover:text-yellow-500">Sponsorship</a></li>
+      <li><a href="schedule.html" class="hover:text-yellow-500">Schedule</a></li>
+      <li><a href="contact.html" class="hover:text-yellow-500">Contact Us</a></li>
+    </ul>
+  </nav>
+
+  <main class="container mx-auto p-4 md:p-10 max-w-4xl">
+    <header class="text-center mb-8 md:mb-12">
+      <h2 class="text-3xl md:text-5xl font-bold text-gray-100 uppercase tracking-wide">Welcome to the Cumberland Dukes U15A1</h2>
+    </header>
+
+    <div class="text-center mb-10 md:mb-16">
+      <p class="text-sm md:text-base text-gray-300 max-w-3xl mx-auto">
+        We are the Cumberland Dukes U15A1. Thank you for visiting our homepage. Here you can find our latest schedule, sponsorship opportunities, team news, and how to get in touch with us.  
+        We welcome all fans, families, and prospective sponsors to follow our journey this season.
+      </p>
+    </div>
+
+    <!-- Some Feature Boxes or Images, optional -->
+    <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-10 md:mb-16">
+      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-10 shadow-lg text-center max-w-xs">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4">Our Team</h3>
+        <p class="text-gray-300">Committed to excellence, sportsmanship, and developing young talent on and off the ice.</p>
+      </div>
+      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-10 shadow-lg text-center max-w-xs">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4">Join Us</h3>
+        <p class="text-gray-300">Interested in sponsoring or supporting our team? Check out our sponsorship page for opportunities.</p>
+      </div>
+      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-10 shadow-lg text-center max-w-xs">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4">Stay Updated</h3>
+        <p class="text-gray-300">Browse the schedule to know when and where we're playing. Come cheer us on!</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="text-center py-6 mt-12 text-gray-400">&copy; 2025 Cumberland Dukes U15A1</footer>
 </body>
 </html>
