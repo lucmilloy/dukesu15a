@@ -7,149 +7,141 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="style.css">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #1a202c;
-        background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
-        background-size: cover;
-        background-position: center;
-        color: white;
-    }
-    
-    .table-grid {
-        display: grid;
-        grid-template-columns: 2fr repeat(4, 1fr);
-        gap: 2px;
-        background-color: rgba(30, 41, 59, 0.9);
-        border: 1px solid #475569;
-        border-radius: 1rem;
-        overflow: hidden;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #1a202c;
+        background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
+        background-size: cover;
+        background-position: center;
+        color: white;
+    }
+    
+    .table-grid {
+        display: grid;
+        grid-template-columns: 2fr repeat(4, 1fr);
+        gap: 2px;
+        background-color: rgba(30, 41, 59, 0.9);
+        border: 1px solid #475569;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
 
-    .col-header, .row-header {
-        background-color: #2d3748;
-    }
-    
-    .cell {
-        background-color: #1f2937;
-    }
+    .col-header, .row-header {
+        background-color: #2d3748;
+    }
+    
+    .cell {
+        background-color: #1f2937;
+    }
 
-    .highlight-text {
-        color: #f59e0b;
-    }
-    
-    @media (max-width: 768px) {
-        .table-grid {
-            grid-template-columns: 1fr;
-        }
-        .table-grid .col-header {
-            display: none;
-        }
-        .table-grid .row-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #2d3748;
-            padding: 1rem;
-        }
-        .table-grid .cell {
-            padding: 1rem;
-            border-bottom: 1px solid #4a5568;
-        }
-        .table-grid .cell:not(:last-child) {
-            border-bottom: none;
-        }
-    }
+    .highlight-text {
+        color: #f59e0b;
+    }
+    
+    @media (max-width: 768px) {
+        .table-grid {
+            grid-template-columns: 1fr;
+        }
+        .table-grid .col-header {
+            display: none;
+        }
+        .table-grid .row-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2d3748;
+            padding: 1rem;
+        }
+        .table-grid .cell {
+            padding: 1rem;
+            border-bottom: 1px solid #4a5568;
+        }
+        .table-grid .cell:not(:last-child) {
+            border-bottom: none;
+        }
+    }
 </style>
 </head>
 <body class="text-white">
 <header class="flex flex-col items-center justify-center p-4">
-    <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo" class="w-32 md:w-48 h-auto">
-    <h1 class="text-4xl md:text-6xl font-bold mt-4">Cumberland Dukes U15A1</h1>
+    <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo" class="w-32 md:w-48 h-auto">
+    <h1 class="text-4xl md:text-6xl font-bold mt-4">Cumberland Dukes U15A1</h1>
 </header>
 <nav>
-    <ul class="flex flex-wrap justify-center space-x-6 md:space-x-10 p-4 text-lg md:text-xl">
-        <li><a href="index.html" class="hover:text-yellow-500">Home</a></li>
-        <li><a href="sponsors.html" class="hover:text-yellow-500">Sponsors</a></li>
-        <li><a href="sponsorship.html" class="text-yellow-500 font-bold">Sponsorship</a></li>
-        <li><a href="schedule.html" class="hover:text-yellow-500">Schedule</a></li>
-        <li><a href="contact.html" class="hover:text-yellow-500">Contact Us</a></li>
-    </ul>
+    <ul class="flex flex-wrap justify-center space-x-6 md:space-x-10 p-4 text-lg md:text-xl">
+        <li><a href="index.html" class="hover:text-yellow-500">Home</a></li>
+        <li><a href="sponsors.html" class="hover:text-yellow-500">Sponsors</a></li>
+        <li><a href="sponsorship.html" class="text-yellow-500 font-bold">Sponsorship</a></li>
+        <li><a href="schedule.html" class="hover:text-yellow-500">Schedule</a></li>
+        <li><a href="contact.html" class="hover:text-yellow-500">Contact Us</a></li>
+    </ul>
 </nav>
 <main class="container mx-auto p-4 md:p-10 max-w-4xl">
-    <header class="text-center mb-8 md:mb-12">
-        <h2 class="text-3xl md:text-5xl font-bold text-gray-100 uppercase tracking-wide">Sponsorship Packages</h2>
-    </header>
+    <header class="text-center mb-8 md:mb-12">
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-100 uppercase tracking-wide">Sponsorship Packages</h2>
+    </header>
 
-    <div class="text-center mb-10 md:mb-16">
-        <p class="text-sm md:text-base text-gray-300 max-w-3xl mx-auto">
-            Thank you for your interest in donating to our team. Provided below is a breakdown of your sponsorship packages.
-        </p>
-    </div>
-    
-    <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-12 mb-10 md:mb-16">
-        <img src="images/bottle.png" alt="Dukes branded water bottle" class="w-48 h-48 md:w-64 md:h-64 rounded-lg object-contain">
-        <img src="images/hoodie.png" alt="Dukes branded hoodie" class="w-48 h-48 md:w-64 md:h-64 rounded-lg object-contain">
-        <img src="images/jersey.png" alt="Dukes branded jersey" class="w-48 h-48 md:w-64 md:h-64 rounded-lg object-contain">
-    </div>
+    <div class="text-center mb-10 md:mb-16">
+        <p class="text-sm md:text-base text-gray-300 max-w-3xl mx-auto">
+            Thank you for your interest in donating to our team. Provided below is a breakdown of your sponsorship packages.
+        </p>
+    </div>
+    
+    <div class="bg-gray-800 bg-opacity-75 rounded-2xl shadow-xl overflow-hidden p-2">
+        <div class="table-grid text-sm md:text-base">
+            <div class="hidden md:block"></div>
+            <div class="col-header p-4 font-bold text-center rounded-tl-xl">Bronze</div>
+            <div class="col-header p-4 font-bold text-center">Silver</div>
+            <div class="col-header p-4 font-bold text-center">Gold</div>
+            <div class="col-header p-4 font-bold text-center rounded-tr-xl">Platinum</div>
 
-    <div class="bg-gray-800 bg-opacity-75 rounded-2xl shadow-xl overflow-hidden p-2">
-        <div class="table-grid text-sm md:text-base">
-            <div class="hidden md:block"></div>
-            <div class="col-header p-4 font-bold text-center rounded-tl-xl">Bronze</div>
-            <div class="col-header p-4 font-bold text-center">Silver</div>
-            <div class="col-header p-4 font-bold text-center">Gold</div>
-            <div class="col-header p-4 font-bold text-center rounded-tr-xl">Platinum</div>
+            <div class="hidden md:block"></div>
+            <div class="p-2 text-center text-gray-400 font-medium">$250</div>
+            <div class="p-2 text-center text-gray-400 font-medium">$500</div>
+            <div class="p-2 text-center text-gray-400 font-medium">$750+</div>
+            <div class="p-2 text-center text-gray-400 font-medium">$1000+</div>
 
-            <div class="hidden md:block"></div>
-            <div class="p-2 text-center text-gray-400 font-medium">$250</div>
-            <div class="p-2 text-center text-gray-400 font-medium">$500</div>
-            <div class="p-2 text-center text-gray-400 font-medium">$750+</div>
-            <div class="p-2 text-center text-gray-400 font-medium">$1000+</div>
+            <div class="row-header font-semibold p-4">Featured sponsor on website</div>
+            <div class="cell p-4 text-center"></div>
+            <div class="cell p-4 text-center"></div>
+            <div class="cell p-4 text-center"></div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+                  
+            <div class="row-header font-semibold p-4">Sponsorship Certificate</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
 
-            <div class="row-header font-semibold p-4 rounded-bl-xl">Team practice jerseys w/ logo</div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="row-header font-semibold p-4 rounded-bl-xl">Funds directly allocated to player development</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
+        </div>
+    </div>
 
-            <div class="row-header font-semibold p-4">Team hoodies w/ logo</div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-            <div class="cell p-4 text-center"></div>
+    <header class="text-center mt-12 mb-8 md:mt-16 md:mb-12">
+        <h3 class="text-2xl md:text-4xl font-bold text-gray-100 uppercase tracking-wide">Premium Sponsor Add-ons</h3>
+    </header>
 
-            <div class="row-header font-semibold p-4">Team water bottles w/ logo</div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center"></div>
-
-            <div class="row-header font-semibold p-4">Featured sponsor on website</div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center"></div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-                  
-            <div class="row-header font-semibold p-4 rounded-bl-xl">Funds directly allocated to player development</div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-            <div class="cell p-4 text-center highlight-text font-bold text-xl">X</div>
-        </div>
-    </div>
-    
-    <div class="text-center mt-12 md:mt-16">
-        <p class="text-base md:text-lg font-semibold text-gray-200 mb-4">
-            Thank you for your support! Your donation will enhance the quality of training for our young athletes, so they can reach their full potential.
-        </p>
-        <p class="text-sm md:text-base text-gray-400">
-        Please contact <a href="contact.html" class="text-yellow-500 hover:underline">us here</a>
-        if you are interested in sponsoring the team, or if you would like to propose a sponsorship idea or partnership opportunity.
-        </p>
-    </div>
+    <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-12 mb-10 md:mb-16">
+        <img src="images/bottle.png" alt="Dukes branded water bottle" class="w-48 h-48 md:w-64 md:h-64 rounded-lg object-contain">
+        <img src="images/hoodie.png" alt="Dukes branded hoodie" class="w-48 h-48 md:w-64 md:h-64 rounded-lg object-contain">
+        <img src="images/jersey.png" alt="Dukes branded jersey" class="w-48 h-48 md:w-64 md:h-64 rounded-lg object-contain">
+    </div>
+    
+    <div class="text-center mt-12 md:mt-16">
+        <p class="text-base md:text-lg font-semibold text-gray-200 mb-4">
+            Thank you for your support! Your donation will enhance the quality of training for our young athletes, so they can reach their full potential.
+        </p>
+        <p class="text-sm md:text-base text-gray-400">
+        Please contact <a href="contact.html" class="text-yellow-500 hover:underline">us here</a>
+        if you are interested in sponsoring the team, or if you would like to propose a sponsorship idea or partnership opportunity.
+        </p>
+    </div>
 </main>
 <footer class="text-center py-6 mt-12 text-gray-400">&copy; 2025 Cumberland Dukes U15A1</footer>
 </body>
