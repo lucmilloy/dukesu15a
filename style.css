@@ -1,134 +1,181 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #1a202c;
-  background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
-  background-size: cover;
-  background-position: center;
-  color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    background-color: #1a202c;
+    background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
+    background-size: cover;
+    background-position: center;
+    color: #e2e8f0;
+    margin: 0; /* Ensure no default body margin */
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+header {
+    text-align: center;
+    padding-top: 2rem;
+}
+
+header img {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
 }
 
 nav ul {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  list-style: none;
-  padding: 0;
-  margin: 1.5rem 0;
-  background-color: rgba(30, 41, 59, 0.9);
-  border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    background-color: rgba(30, 41, 59, 0.9);
+    border-radius: 1rem;
 }
 
 nav a {
-  color: #a0aec0;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.3s ease-in-out;
-  padding: 1rem;
+    color: #a0aec0;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+    padding: 1rem;
 }
 
 nav a:hover {
-  color: #f59e0b;
+    color: #f59e0b;
 }
 
 .sponsor-section {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background-color: rgba(30, 41, 59, 0.9);
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: rgba(30, 41, 59, 0.9);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .sponsor-logos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
 }
 
 .sponsor-logos img {
-  display: block;
-  height: auto;
-  border-radius: 0.5rem;
-  transition: transform 0.3s ease-in-out;
+    display: block;
+    height: auto;
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease-in-out;
 }
 
 .sponsor-logos img:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .platinum img {
-  max-width: 50%;
+    max-width: 50%;
 }
 
 .gold img {
-  max-width: 25%;
+    max-width: 25%;
 }
 
 .silver img {
-  max-width: 18.75%;
+    max-width: 18.75%;
 }
 
 .bronze img {
-  max-width: 15%;
+    max-width: 15%;
 }
 
 h2, h3 {
-  color: #f59e0b;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1rem;
+    color: #f59e0b;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
+/* --- THE CRITICAL FIXES FOR THE TABLE ARE BELOW --- */
 .table-grid {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
-  gap: 2px;
-  background-color: rgba(30, 41, 59, 0.9);
-  border: 1px solid #475569;
-  border-radius: 1rem;
-  overflow: hidden;
+    display: grid;
+    /* Sets the columns: 2 parts for the feature name, 1 part each for the 4 tiers */
+    grid-template-columns: 2fr repeat(4, 1fr); 
+    
+    /* FIX: Setting gap to 0 removes the space between columns */
+    gap: 0; 
+    
+    background-color: rgba(30, 41, 59, 0.9);
+    border: 1px solid #475569;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.table-grid .col-header,
+.table-grid .row-header,
+.table-grid .cell {
+    padding: 15px; /* Add padding for content spacing */
 }
 
 .col-header {
-  background-color: #2d3748;
-  font-weight: bold;
+    background-color: #2d3748;
+    font-weight: bold;
+    text-align: center;
 }
 
 .row-header {
     background-color: #2d3748;
+    font-weight: bold;
+    text-align: left;
 }
 
 .cell {
-  background-color: #1f2937;
+    background-color: #1f2937;
+    text-align: center;
 }
 
 .highlight-text {
-  color: #f59e0b;
+    color: #f59e0b;
+}
+
+/* Ensures the feature name column remains styled for rows */
+.table-grid .row-header + .cell,
+.table-grid .row-header {
+    border-top: 1px solid #475569;
+}
+
+/* Ensure borders are visible between columns */
+.table-grid .col-header:not(:last-child),
+.table-grid .cell:not(:last-child) {
+    border-right: 1px solid #475569;
 }
 
 @media (max-width: 768px) {
-  .table-grid {
-    grid-template-columns: 1fr;
-  }
-  .table-grid .col-header {
-    display: none;
-  }
-  .table-grid .row-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #2d3748;
-    padding: 1rem;
-  }
-  .table-grid .cell {
-    padding: 1rem;
-    border-bottom: 1px solid #4a5568;
-  }
-  .table-grid .cell:not(:last-child) {
-    border-bottom: none;
-  }
+    .table-grid {
+        grid-template-columns: 1fr;
+    }
+    .table-grid .col-header {
+        display: none;
+    }
+    .table-grid .row-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2d3748;
+        padding: 1rem;
+    }
+    .table-grid .cell {
+        padding: 1rem;
+        border-bottom: 1px solid #4a5568;
+        text-align: left; /* Adjust text alignment for mobile view */
+    }
+    .table-grid .cell:not(:last-child) {
+        border-bottom: none;
+    }
 }
