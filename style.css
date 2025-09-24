@@ -7,7 +7,7 @@ body {
     background-size: cover;
     background-position: center;
     color: #e2e8f0;
-    margin: 0; /* Ensure no default body margin */
+    margin: 0; 
 }
 
 .container {
@@ -79,6 +79,15 @@ nav a:hover {
     transform: scale(1.05);
 }
 
+/* New rule for uniform image sizing in the Premium section */
+.sponsor-logos.premium-items img {
+    max-width: 180px; 
+    height: auto; 
+    background-color: white; 
+    padding: 5px;
+    border-radius: 8px;
+}
+
 .platinum img {
     max-width: 50%;
 }
@@ -102,13 +111,12 @@ h2, h3 {
     margin-bottom: 1rem;
 }
 
-/* --- THE CRITICAL FIXES FOR THE TABLE ARE BELOW --- */
+/* --- CORRECTED TABLE GRID STYLES --- */
 .table-grid {
     display: grid;
-    /* Sets the columns: 2 parts for the feature name, 1 part each for the 4 tiers */
     grid-template-columns: 2fr repeat(4, 1fr); 
     
-    /* FIX: Setting gap to 0 removes the space between columns */
+    /* FIX 1: Setting gap to 0 removes the space between columns */
     gap: 0; 
     
     background-color: rgba(30, 41, 59, 0.9);
@@ -120,7 +128,7 @@ h2, h3 {
 .table-grid .col-header,
 .table-grid .row-header,
 .table-grid .cell {
-    padding: 15px; /* Add padding for content spacing */
+    padding: 15px; 
 }
 
 .col-header {
@@ -144,17 +152,23 @@ h2, h3 {
     color: #f59e0b;
 }
 
-/* Ensures the feature name column remains styled for rows */
-.table-grid .row-header + .cell,
-.table-grid .row-header {
+/* FIX 2: Apply internal borders consistently to all cells for a full grid look */
+.table-grid .col-header,
+.table-grid .row-header,
+.table-grid .cell {
+    border-right: 1px solid #475569;
     border-top: 1px solid #475569;
 }
 
-/* Ensure borders are visible between columns */
-.table-grid .col-header:not(:last-child),
-.table-grid .cell:not(:last-child) {
-    border-right: 1px solid #475569;
+/* Clean up the outer border to be contained by the parent .table-grid border */
+.table-grid .col-header:last-child,
+.table-grid .cell:last-child {
+    border-right: none;
 }
+.table-grid .col-header:nth-child(-n+5) { /* Targets the first row only */
+    border-top: none;
+}
+
 
 @media (max-width: 768px) {
     .table-grid {
@@ -173,7 +187,7 @@ h2, h3 {
     .table-grid .cell {
         padding: 1rem;
         border-bottom: 1px solid #4a5568;
-        text-align: left; /* Adjust text alignment for mobile view */
+        text-align: left; 
     }
     .table-grid .cell:not(:last-child) {
         border-bottom: none;
