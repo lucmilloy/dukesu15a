@@ -37,6 +37,8 @@ nav ul {
     margin: 1.5rem 0;
     background-color: rgba(30, 41, 59, 0.9);
     border-radius: 1rem;
+    /* FIX: Forces the nav bar to span the full width of its container */
+    width: 100%;
 }
 
 nav a {
@@ -116,7 +118,7 @@ h2, h3 {
     display: grid;
     grid-template-columns: 2fr repeat(4, 1fr); 
     
-    /* FIX 1: Setting gap to 0 removes the space between columns */
+    /* FIX: Setting gap to 0 removes the space between columns */
     gap: 0; 
     
     background-color: rgba(30, 41, 59, 0.9);
@@ -152,7 +154,7 @@ h2, h3 {
     color: #f59e0b;
 }
 
-/* FIX 2: Apply internal borders consistently to all cells for a full grid look */
+/* Apply internal borders consistently to all cells for a full grid look */
 .table-grid .col-header,
 .table-grid .row-header,
 .table-grid .cell {
