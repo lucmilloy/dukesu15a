@@ -28,6 +28,11 @@ header img {
     margin: 0 auto 1rem;
 }
 
+/* 🔥 FINAL FIX: Ensures the nav container itself spans the full width 🔥 */
+nav {
+    width: 100%;
+}
+
 nav ul {
     display: flex;
     justify-content: center;
@@ -37,8 +42,8 @@ nav ul {
     margin: 1.5rem 0;
     background-color: rgba(30, 41, 59, 0.9);
     border-radius: 1rem;
-    /* FIX: Forces the nav bar to span the full width of its container */
-    width: 100%;
+    /* This was already correct, but needs the parent 'nav' fix above */
+    width: 100%; 
 }
 
 nav a {
@@ -81,7 +86,6 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* New rule for uniform image sizing in the Premium section */
 .sponsor-logos.premium-items img {
     max-width: 180px; 
     height: auto; 
@@ -113,14 +117,10 @@ h2, h3 {
     margin-bottom: 1rem;
 }
 
-/* --- CORRECTED TABLE GRID STYLES --- */
 .table-grid {
     display: grid;
     grid-template-columns: 2fr repeat(4, 1fr); 
-    
-    /* FIX: Setting gap to 0 removes the space between columns */
     gap: 0; 
-    
     background-color: rgba(30, 41, 59, 0.9);
     border: 1px solid #475569;
     border-radius: 1rem;
@@ -154,7 +154,6 @@ h2, h3 {
     color: #f59e0b;
 }
 
-/* Apply internal borders consistently to all cells for a full grid look */
 .table-grid .col-header,
 .table-grid .row-header,
 .table-grid .cell {
@@ -162,12 +161,11 @@ h2, h3 {
     border-top: 1px solid #475569;
 }
 
-/* Clean up the outer border to be contained by the parent .table-grid border */
 .table-grid .col-header:last-child,
 .table-grid .cell:last-child {
     border-right: none;
 }
-.table-grid .col-header:nth-child(-n+5) { /* Targets the first row only */
+.table-grid .col-header:nth-child(-n+5) { 
     border-top: none;
 }
 
