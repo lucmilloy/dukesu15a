@@ -1,104 +1,197 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sponsorship | Cumberland Dukes U15A1</title>
-    <link rel="stylesheet" href="style.css"> 
-</head>
-<body>
-    <div class="container">
-        
-        <header>
-            <img src="images/dukes-logo.png" alt="Cumberland Dukes Logo">
-            <h1>Cumberland Dukes U15A1</h1>
-        </header>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="sponsors.html">Sponsors</a></li>
-                <li><a href="sponsorship.html">Sponsorship</a></li>
-                <li><a href="schedule.html">Schedule</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-        </nav>
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1a202c;
+    background-image: url('https://placehold.co/1920x1080/1a202c/1a202c?text=');
+    background-size: cover;
+    background-position: center;
+    color: #e2e8f0;
+    margin: 0; 
+}
 
-        <main>
-            <div class="sponsor-section">
-                <h2>Sponsorship Packages</h2>
-                
-                <p style="text-align: center; margin-bottom: 2rem;">
-                    Thank you for your interest in donating to our team. Provided below is a breakdown of your sponsorship packages.
-                </p>
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
 
-                <div class="table-grid">
-                    
-                    <div class="col-header"></div> <div class="col-header">Bronze</div>
-                    <div class="col-header">Silver</div>
-                    <div class="col-header">Gold</div>
-                    <div class="col-header">Platinum</div>
-                    
-                    <div class="row-header">Contribution</div>
-                    <div class="cell highlight-text">$250</div>
-                    <div class="cell highlight-text">$500</div>
-                    <div class="cell highlight-text">$750+</div>
-                    <div class="cell highlight-text">$1000+</div>
+header {
+    text-align: center;
+    padding-top: 2rem;
+}
 
-                    <div class="row-header">Sponsorship listed on website (See sponsors page)</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
+header img {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
+}
 
-                    <div class="row-header">Sponsorship Certificate</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    background-color: rgba(30, 41, 59, 0.9);
+    border-radius: 1rem;
+    /* FIX: Forces the nav bar to span the full width of its container */
+    width: 100%;
+}
 
-                    <div class="row-header">Funds directly allocated to player development</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    <div class="cell">X</div>
-                    
-                </div>
-            </div>
-            
-            <div class="sponsor-section">
-                <h3>Premium Sponsor Add-ons</h3> 
-                
-                <div class="sponsor-logos premium-items">
-                    <div style="text-align: center;">
-                        <img src="images/bottle.png" alt="Dukes branded water bottle">
-                        <p>Branded Water Bottles</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <img src="images/hoodie.png" alt="Dukes branded hoodie">
-                        <p>Team Hoodies</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <img src="images/jersey.png" alt="Dukes branded jersey">
-                        <p>Branded Team Jerseys</p>
-                    </div>
-                </div>
+nav a {
+    color: #a0aec0;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+    padding: 1rem;
+}
 
-                <p style="text-align: center; margin-top: 2rem;">
-                    Thank you for your support! Your donation will enhance the quality of training for our young athletes, so they can reach their full potential.
-                </p>
-                <p style="text-align: center; margin-bottom: 0;">
-                    Please contact <a href="contact.html" class="highlight-text">us here</a> if you are interested in sponsoring the team, or if you would like to propose a sponsorship idea or partnership opportunity.
-                </p>
-            </div>
-        </main>
+nav a:hover {
+    color: #f59e0b;
+}
 
-        <footer>
-            <p style="text-align: center; font-size: 0.8em; padding: 1rem 0;">
-                &copy; 2025 Cumberland Dukes U15A1
-            </p>
-        </footer>
+.sponsor-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: rgba(30, 41, 59, 0.9);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    </div>
-</body>
-</html>
+.sponsor-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.sponsor-logos img {
+    display: block;
+    height: auto;
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sponsor-logos img:hover {
+    transform: scale(1.05);
+}
+
+/* New rule for uniform image sizing in the Premium section */
+.sponsor-logos.premium-items img {
+    max-width: 180px; 
+    height: auto; 
+    background-color: white; 
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.platinum img {
+    max-width: 50%;
+}
+
+.gold img {
+    max-width: 25%;
+}
+
+.silver img {
+    max-width: 18.75%;
+}
+
+.bronze img {
+    max-width: 15%;
+}
+
+h2, h3 {
+    color: #f59e0b;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* --- CORRECTED TABLE GRID STYLES --- */
+.table-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(4, 1fr); 
+    
+    /* FIX: Setting gap to 0 removes the space between columns */
+    gap: 0; 
+    
+    background-color: rgba(30, 41, 59, 0.9);
+    border: 1px solid #475569;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.table-grid .col-header,
+.table-grid .row-header,
+.table-grid .cell {
+    padding: 15px; 
+}
+
+.col-header {
+    background-color: #2d3748;
+    font-weight: bold;
+    text-align: center;
+}
+
+.row-header {
+    background-color: #2d3748;
+    font-weight: bold;
+    text-align: left;
+}
+
+.cell {
+    background-color: #1f2937;
+    text-align: center;
+}
+
+.highlight-text {
+    color: #f59e0b;
+}
+
+/* Apply internal borders consistently to all cells for a full grid look */
+.table-grid .col-header,
+.table-grid .row-header,
+.table-grid .cell {
+    border-right: 1px solid #475569;
+    border-top: 1px solid #475569;
+}
+
+/* Clean up the outer border to be contained by the parent .table-grid border */
+.table-grid .col-header:last-child,
+.table-grid .cell:last-child {
+    border-right: none;
+}
+.table-grid .col-header:nth-child(-n+5) { /* Targets the first row only */
+    border-top: none;
+}
+
+
+@media (max-width: 768px) {
+    .table-grid {
+        grid-template-columns: 1fr;
+    }
+    .table-grid .col-header {
+        display: none;
+    }
+    .table-grid .row-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2d3748;
+        padding: 1rem;
+    }
+    .table-grid .cell {
+        padding: 1rem;
+        border-bottom: 1px solid #4a5568;
+        text-align: left; 
+    }
+    .table-grid .cell:not(:last-child) {
+        border-bottom: none;
+    }
+}
