@@ -3,35 +3,35 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://yourwebsite.com/index.html</loc>
+    <loc>https://dukesu15a.ca/index.html</loc>
     <lastmod>2025-10-02</lastmod>
     <priority>1.0</priority>
   </url>
 
   <!-- Sponsors page -->
   <url>
-    <loc>https://yourwebsite.com/sponsors.html</loc>
+    <loc>https://dukesu15a.ca/sponsors.html</loc>
     <lastmod>2025-10-02</lastmod>
     <priority>0.8</priority>
   </url>
 
   <!-- Sponsorship page -->
   <url>
-    <loc>https://yourwebsite.com/sponsorship.html</loc>
+    <loc>https://dukesu15a.ca/sponsorship.html</loc>
     <lastmod>2025-10-02</lastmod>
     <priority>0.7</priority>
   </url>
 
   <!-- Schedule page -->
   <url>
-    <loc>https://yourwebsite.com/schedule.html</loc>
+    <loc>https://dukesu15a.ca/schedule.html</loc>
     <lastmod>2025-10-02</lastmod>
     <priority>0.7</priority>
   </url>
 
   <!-- Contact page -->
   <url>
-    <loc>https://yourwebsite.com/contact.html</loc>
+    <loc>https://dukesu15a.ca/contact.html</loc>
     <lastmod>2025-10-02</lastmod>
     <priority>0.6</priority>
   </url>
