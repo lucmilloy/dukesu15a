@@ -13,6 +13,7 @@
             --card-bg: #ffffff;
             --text: #222222;
             --accent-green: #28a745;
+            --sensplex-blue: #0056b3;
         }
 
         body {
@@ -138,6 +139,32 @@
             color: #111;
         }
 
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .btn-link {
+            display: block;
+            padding: 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-ottawa {
+            background-color: var(--primary);
+        }
+
+        .btn-sensplex {
+            background-color: var(--sensplex-blue);
+        }
+
         .status-tracker {
             font-size: 0.75rem;
             color: #777;
@@ -158,7 +185,7 @@
         
         <div class="filter-group-title">Days & Times</div>
         <div class="badge-list">
-            <span class="badge active">Tue, Wed, Fri (5 PM – 8 PM)</span>
+            <span class="badge active">Tue, Wed, Fri (4 PM – 8 PM)</span>
             <span class="badge active">Sat & Sun (8 AM – 8 PM)</span>
         </div>
 
@@ -172,13 +199,17 @@
         <div class="badge-list">
             <span class="badge">Bob MacQuarrie</span>
             <span class="badge">Ray Friel</span>
-            <span class="badge">Earl Armstrong</span>
+            <span class="badge">Richcraft Sensplex (East)</span>
+            <span class="badge">Lois Kemp (Blackburn)</span>
+            <span class="badge">R.J. Kennedy (Cumberland)</span>
             <span class="badge">Navan</span>
+            <span class="badge">Earl Armstrong</span>
+            <span class="badge">Canterbury (Brian Kilrea)</span>
             <span class="badge">Bernard-Grandmaître</span>
             <span class="badge">Jim Durrell</span>
         </div>
 
-        <button class="btn-refresh" onclick="checkIceAvailability()">Check City Portal Calendar</button>
+        <button class="btn-refresh" onclick="checkIceAvailability()">Check Rink Calendars</button>
     </div>
 
     <div id="results" class="slots-container">
@@ -209,9 +240,10 @@
             dateBadge.innerText = `Online Checkout: ${formatDate(today)} – ${formatDate(max15)}`;
             targetBadge.innerText = `Viewing Window: Up to ${formatDate(target20)}`;
 
-            status.innerText = "Checking City of Ottawa system...";
+            status.innerText = "Checking City of Ottawa & Sensplex systems...";
 
             const ottawaDirectUrl = "https://register.ottawa.ca/facility/search";
+            const sensplexDirectUrl = "https://www.sensplex.ca/spare-ice/";
 
             container.innerHTML = `
                 <div class="empty-state">
@@ -222,10 +254,13 @@
                     </p>
                     
                     <div class="tip-box">
-                        <strong>Strategy Tip:</strong> If you spot an open slot on the calendar for <strong>${formatDate(target20)}</strong>, set a reminder for <strong>5 days from today</strong>. That is the exact day the online "Book Now" button unlocks at the last-minute rate!
+                        <strong>Strategy Tip:</strong> 4:00 PM – 5:00 PM slots occasionally open up right after school hours. Check both portals below to claim available blocks!
                     </div>
 
-                    <a href="${ottawaDirectUrl}" target="_blank" style="display:inline-block; margin-top:14px; background:#c8102e; color:#fff; padding:10px 16px; border-radius:4px; text-decoration:none; font-weight:bold;">Open Register.Ottawa.ca Calendar</a>
+                    <div class="button-group">
+                        <a href="${ottawaDirectUrl}" target="_blank" class="btn-link btn-ottawa">Open Register.Ottawa.ca Calendar</a>
+                        <a href="${sensplexDirectUrl}" target="_blank" class="btn-link btn-sensplex">Open Richcraft Sensplex Spare Ice</a>
+                    </div>
                 </div>
             `;
 
