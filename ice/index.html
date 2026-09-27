@@ -59,11 +59,20 @@
             padding-bottom: 8px;
         }
 
+        .filter-group-title {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
         .badge-list {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 8px;
+            margin-bottom: 8px;
         }
 
         .badge {
@@ -80,6 +89,16 @@
             color: #fff;
         }
 
+        .badge.window {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .badge.target {
+            background: #6f42c1;
+            color: #fff;
+        }
+
         .btn-refresh {
             width: 100%;
             background-color: var(--primary);
@@ -90,51 +109,12 @@
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 12px;
             text-align: center;
         }
 
         .btn-refresh:active {
             background-color: var(--primary-dark);
-        }
-
-        .slots-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .slot-card {
-            background: var(--card-bg);
-            border-left: 5px solid var(--accent-green);
-            border-radius: 6px;
-            padding: 12px 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .slot-info h3 {
-            margin: 0 0 4px 0;
-            font-size: 1rem;
-        }
-
-        .slot-info p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #555;
-        }
-
-        .slot-action a {
-            background-color: var(--accent-green);
-            color: white;
-            text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: inline-block;
         }
 
         .empty-state {
@@ -145,6 +125,17 @@
             color: #666;
             font-size: 0.9rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tip-box {
+            background: #eef7ff;
+            border-left: 4px solid #0056b3;
+            padding: 10px 12px;
+            margin-top: 10px;
+            text-align: left;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #111;
         }
 
         .status-tracker {
@@ -164,9 +155,21 @@
 
     <div class="filter-card">
         <h2>Active Search Filters</h2>
+        
+        <div class="filter-group-title">Days & Times</div>
         <div class="badge-list">
-            <span class="badge active">Tue, Wed, Fri</span>
-            <span class="badge active">5:00 PM – 8:00 PM</span>
+            <span class="badge active">Tue, Wed, Fri (5 PM – 8 PM)</span>
+            <span class="badge active">Sat & Sun (8 AM – 8 PM)</span>
+        </div>
+
+        <div class="filter-group-title">Booking Horizons</div>
+        <div class="badge-list">
+            <span class="badge window" id="dateRangeBadge">Instant Online Booking (15-Day)</span>
+            <span class="badge target" id="targetDateBadge">20-Day View Window</span>
+        </div>
+
+        <div class="filter-group-title">East/Central Arenas</div>
+        <div class="badge-list">
             <span class="badge">Bob MacQuarrie</span>
             <span class="badge">Ray Friel</span>
             <span class="badge">Earl Armstrong</span>
@@ -174,11 +177,12 @@
             <span class="badge">Bernard-Grandmaître</span>
             <span class="badge">Jim Durrell</span>
         </div>
-        <button class="btn-refresh" onclick="checkIceAvailability()">Check City Portal Now</button>
+
+        <button class="btn-refresh" onclick="checkIceAvailability()">Check City Portal Calendar</button>
     </div>
 
     <div id="results" class="slots-container">
-        <!-- Results or empty state injected here -->
+        <!-- Results injected here -->
     </div>
 
     <div class="status-tracker" id="lastChecked">
@@ -189,18 +193,39 @@
         function checkIceAvailability() {
             const container = document.getElementById('results');
             const status = document.getElementById('lastChecked');
+            const dateBadge = document.getElementById('dateRangeBadge');
+            const targetBadge = document.getElementById('targetDateBadge');
             
+            const today = new Date();
+            
+            const max15 = new Date();
+            max15.setDate(today.getDate() + 15);
+
+            const target20 = new Date();
+            target20.setDate(today.getDate() + 20);
+            
+            const formatDate = (d) => (d.getMonth() + 1) + '/' + d.getDate();
+            
+            dateBadge.innerText = `Online Checkout: ${formatDate(today)} – ${formatDate(max15)}`;
+            targetBadge.innerText = `Viewing Window: Up to ${formatDate(target20)}`;
+
             status.innerText = "Checking City of Ottawa system...";
 
-            // Direct Ottawa.ca ActiveNet query URL with East/Central pre-filtered
             const ottawaDirectUrl = "https://register.ottawa.ca/facility/search";
 
-            // Temporary render state
             container.innerHTML = `
                 <div class="empty-state">
-                    <p><strong>No 5:00–8:00 PM openings returned right now.</strong></p>
-                    <p style="margin-top: 5px; font-size: 0.8rem;">Weekdays 5–8 PM in Orléans/East End sell out instantly upon release. Tap below to jump straight into the City's filtered reservation system.</p>
-                    <a href="${ottawaDirectUrl}" target="_blank" style="display:inline-block; margin-top:10px; background:#c8102e; color:#fff; padding:10px 16px; border-radius:4px; text-decoration:none; font-weight:bold;">Open Register.Ottawa.ca</a>
+                    <p><strong>Booking Horizon Status</strong></p>
+                    <p style="margin-top: 5px; font-size: 0.85rem;">
+                        • <strong>Instant Web Checkout:</strong> Available for dates up to <strong>${formatDate(max15)}</strong>.<br>
+                        • <strong>Extended Viewing (20 Days Out):</strong> Available up to <strong>${formatDate(target20)}</strong>.
+                    </p>
+                    
+                    <div class="tip-box">
+                        <strong>Strategy Tip:</strong> If you spot an open slot on the calendar for <strong>${formatDate(target20)}</strong>, set a reminder for <strong>5 days from today</strong>. That is the exact day the online "Book Now" button unlocks at the last-minute rate!
+                    </div>
+
+                    <a href="${ottawaDirectUrl}" target="_blank" style="display:inline-block; margin-top:14px; background:#c8102e; color:#fff; padding:10px 16px; border-radius:4px; text-decoration:none; font-weight:bold;">Open Register.Ottawa.ca Calendar</a>
                 </div>
             `;
 
@@ -208,7 +233,6 @@
             status.innerText = "Last checked: " + now.toLocaleTimeString();
         }
 
-        // Run check on load
         checkIceAvailability();
     </script>
 </body>
