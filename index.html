@@ -3,119 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cumberland Dukes U15A - Ice Tracker</title>
+    <title>Cumberland Dukes U15A - Ice Portal</title>
     <style>
         :root { --primary: #003366; --accent: #CC0000; --bg: #f4f6f8; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); margin: 0; padding: 16px; color: #333; }
         .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); max-width: 500px; margin: 0 auto; }
-        h1 { font-size: 1.25rem; color: var(--primary); margin-top: 0; }
+        h1 { font-size: 1.25rem; color: var(--primary); margin-top: 0; margin-bottom: 6px; }
         .badge { background: #eef4ff; color: var(--primary); padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 12px; }
-        .btn { display: block; width: 100%; padding: 14px 0; background: var(--primary); color: #fff; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 12px; border: none; font-size: 1rem; cursor: pointer; }
-        .btn-alt { background: var(--accent); }
-        .info { font-size: 0.85rem; color: #666; margin-top: 16px; line-height: 1.4; }
-        .slot-card { background: #f8fafc; border-left: 4px solid var(--primary); padding: 12px; margin-top: 10px; border-radius: 4px; }
-        .slot-title { font-weight: bold; color: var(--primary); font-size: 0.95rem; }
-        .slot-time { font-size: 0.85rem; color: #555; margin-top: 4px; }
-        .slot-link { display: inline-block; margin-top: 6px; font-size: 0.8rem; color: var(--accent); font-weight: bold; text-decoration: none; }
-        #status-msg { font-size: 0.9rem; color: #555; margin-top: 12px; font-style: italic; }
+        .btn { display: block; width: 100%; padding: 15px 0; background: var(--primary); color: #fff; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 12px; box-sizing: border-box; font-size: 1rem; }
+        .btn-sensplex { background: var(--accent); }
+        .info { font-size: 0.85rem; color: #555; margin-top: 16px; line-height: 1.4; }
+        .arena-list { background: #f8fafc; padding: 12px; border-radius: 6px; font-size: 0.8rem; color: #444; margin-top: 12px; border: 1px solid #e2e8f0; }
+        ul { margin: 4px 0 0 0; padding-left: 18px; }
+        li { margin-bottom: 2px; }
     </style>
 </head>
-
 <body>
     <div class="card">
         <span class="badge" id="date-window">Calculating window...</span>
-        <h1>U15A Ice Availability Finder</h1>
-        <p class="info">Target Arenas: Bob MacQuarrie, Ray Friel, Lois Kemp, RJ Kennedy, Navan, Earl Armstrong, Canterbury, Bernard-Grandmaître, Jim Durrell, Richcraft Sensplex.</p>
+        <h1>U15A Ice Search Portal</h1>
+        <p class="info" style="margin-top:0;">1-tap shortcuts pre-configured for U15 target ice times:</p>
         
-        <button id="scan-btn" class="btn" onclick="scanIce()">Scan Live Rink Availability</button>
-        <div id="status-msg">Tap button to search live city schedules...</div>
+        <a id="ottawa-btn" href="#" target="_blank" class="btn">Launch City of Ottawa Rink Schedule &rarr;</a>
+        <a id="sensplex-btn" href="https://www.sensplex.ca/sp-sparent/last-minute-ice/" target="_blank" class="btn btn-sensplex">Launch Richcraft Sensplex Schedule &rarr;</a>
 
-        <div id="results-container"></div>
+        <div class="arena-list">
+            <strong>Target Locations (East / Central):</strong>
+            <ul>
+                <li>Bob MacQuarrie, Ray Friel, Lois Kemp</li>
+                <li>R.J. Kennedy, Navan, Earl Armstrong</li>
+                <li>Canterbury, Bernard-Grandmaître, Jim Durrell</li>
+                <li>Richcraft Sensplex</li>
+            </ul>
+        </div>
 
-        <hr style="margin-top: 20px; border: 0; border-top: 1px solid #eee;">
-        <a id="ottawa-link" href="https://register.ottawa.ca/facility/search?category=1" target="_blank" class="btn btn-alt">Manual City Search</a>
-        <a id="sensplex-link" href="https://www.sensplex.ca/sp-sparent/last-minute-ice/" target="_blank" class="btn btn-alt" style="background:#444;">Sensplex Last-Minute Ice</a>
+        <div class="info">
+            <strong>Target Times Filter:</strong>
+            <ul>
+                <li><strong>Tue, Wed, Fri:</strong> 4:00 PM – 8:00 PM</li>
+                <li><strong>Sat & Sun:</strong> 8:00 AM – 8:00 PM</li>
+            </ul>
+        </div>
     </div>
 
     <script>
-        const TARGET_ARENAS = [
-            "bob macquarrie", "ray friel", "lois kemp", "r.j. kennedy",
-            "navan", "earl armstrong", "canterbury", "bernard-grandmaître",
-            "jim durrell", "richcraft sensplex"
-        ];
-
         const now = new Date();
         const maxCheckout = new Date();
         maxCheckout.setDate(now.getDate() + 15);
-        document.getElementById('date-window').innerText = `Active Window: ${now.toLocaleDateString('en-US', {month:'short', day:'numeric'})} – ${maxCheckout.toLocaleDateString('en-US', {month:'short', day:'numeric'})}`;
-
-        async function scanIce() {
-            const status = document.getElementById('status-msg');
-            const container = document.getElementById('results-container');
-            status.innerText = "Querying City of Ottawa schedules...";
-            container.innerHTML = "";
-
-            try {
-                // Query Ottawa API directly from user's browser
-                const startDateStr = now.toISOString().split('T')[0];
-                const endDateStr = maxCheckout.toISOString().split('T')[0];
-
-                const res = await fetch(`https://register.ottawa.ca/api/m/facility/search`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        start_date: startDateStr,
-                        end_date: endDateStr,
-                        activity_type_ids: [1],
-                        category: "Facility"
-                    })
-                });
-
-                if (!res.ok) throw new Error("API response error");
-
-                const data = await res.json();
-                const facilities = data?.body?.facilities || [];
-                let matchCount = 0;
-
-                facilities.forEach(fac => {
-                    const name = (fac.name || "").toLowerCase();
-                    if (TARGET_ARENAS.some(target => name.includes(target))) {
-                        const availabilities = fac.availabilities || [];
-                        availabilities.forEach(slot => {
-                            const dateObj = new Date(slot.date + 'T' + slot.start_time);
-                            const day = dateObj.getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-                            const hour = dateObj.getHours();
-
-                            // Weekdays: Tue(2), Wed(3), Fri(5) 4PM-8PM (16-20)
-                            // Weekends: Sat(6), Sun(0) 8AM-8PM (8-20)
-                            const isWeekdayTarget = [2, 3, 5].includes(day) && (hour >= 16 && hour < 20);
-                            const isWeekendTarget = [0, 6].includes(day) && (hour >= 8 && hour < 20);
-
-                            if (isWeekdayTarget || isWeekendTarget) {
-                                matchCount++;
-                                const card = document.createElement('div');
-                                card.className = 'slot-card';
-                                card.innerHTML = `
-                                    <div class="slot-title">${fac.name}</div>
-                                    <div class="slot-time">${slot.date} @ ${slot.start_time}</div>
-                                    <a class="slot-link" href="https://register.ottawa.ca/facility/details/${fac.id}" target="_blank">View / Book Slot &rarr;</a>
-                                `;
-                                container.appendChild(card);
-                            }
-                        });
-                    }
-                });
-
-                if (matchCount === 0) {
-                    status.innerText = "Scan complete: No 1-hour slots matching target times currently open in system.";
-                } else {
-                    status.innerText = `Scan complete: Found ${matchCount} matching slot(s)!`;
-                }
-
-            } catch (err) {
-                status.innerText = "Direct scan blocked by browser security. Use the direct search buttons below to view live listings.";
-            }
-        }
+        
+        const options = { month: 'short', day: 'numeric' };
+        document.getElementById('date-window').innerText = `Active Window: ${now.toLocaleDateString('en-US', options)} – ${maxCheckout.toLocaleDateString('en-US', options)}`;
+        
+        const startStr = now.toISOString().split('T')[0];
+        const endStr = maxCheckout.toISOString().split('T')[0];
+        
+        // Direct launch query into Ottawa ActiveNet facility system
+        document.getElementById('ottawa-btn').href = `https://register.ottawa.ca/facility/search?category=1&start_date=${startStr}&end_date=${endStr}`;
     </script>
 </body>
 </html>
