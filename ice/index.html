@@ -1,33 +1,334 @@
-async function checkAvailability() {
-  const container = document.getElementById('results-container');
-  container.innerHTML = '<p>Loading latest ice availability...</p>';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U15 Ice Availability Finder | Dukes U15A</title>
+    <style>
+        :root {
+            --primary: #c8102e; /* Dukes Red */
+            --primary-dark: #8b0000;
+            --secondary: #111111;
+            --bg: #f4f6f8;
+            --card-bg: #ffffff;
+            --text: #222222;
+            --accent-green: #28a745;
+            --sensplex-blue: #0056b3;
+        }
 
-  try {
-    // Fetch with cache-busting to always get the latest background update
-    const response = await fetch('/ice_data.json?t=' + new Date().getTime());
-    const data = await response.json();
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+        }
 
-    if (!data.slots || data.slots.length === 0) {
-      container.innerHTML = `
-        <div style="background: #111827; border: 1px solid #374151; padding: 16px; border-radius: 8px; margin-top: 16px;">
-          <p style="color: #9CA3AF; margin: 0;">No target 4:00 PM or weekend ice slots currently available in the system.</p>
-          <p style="color: #6B7280; font-size: 0.85rem; margin-top: 8px;">Last updated: ${data.last_updated || 'Just now'}</p>
+        .header {
+            background-color: var(--secondary);
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        .header h1 {
+            margin: 0 0 5px 0;
+            font-size: 1.4rem;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .filter-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .filter-card h2 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--secondary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .filter-group-title {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .badge.window {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .badge.target {
+            background: #6f42c1;
+            color: #fff;
+        }
+
+        .btn-refresh {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .btn-refresh:active {
+            background-color: var(--primary-dark);
+        }
+
+        .slots-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .empty-state {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tip-box {
+            background: #eef7ff;
+            border-left: 4px solid #0056b3;
+            padding: 10px 12px;
+            margin-top: 10px;
+            text-align: left;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #111;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .btn-link {
+            display: block;
+            padding: 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-ottawa {
+            background-color: var(--primary);
+        }
+
+        .btn-sensplex {
+            background-color: var(--sensplex-blue);
+        }
+
+        .status-tracker {
+            font-size: 0.75rem;
+            color: #777;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>East/Central Ice Finder</h1>
+        <p>Cumberland Dukes U15 Last-Minute Ice Tracker</p>
+    </div>
+
+    <div class="filter-card">
+        <h2>Active Search Filters</h2>
+        
+        <div class="filter-group-title">Days & Times</div>
+        <div class="badge-list">
+            <span class="badge active">Tue, Wed, Fri (4 PM – 8 PM)</span>
+            <span class="badge active">Sat & Sun (8 AM – 8 PM)</span>
         </div>
-      `;
-      return;
-    }
 
-    let html = `<p style="color: #9CA3AF; font-size: 0.85rem;">Last checked: ${data.last_updated}</p>`;
-    data.slots.forEach(slot => {
-      html += `
-        <div style="background: #1F2937; border-left: 4px solid #10B981; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
-          <strong style="color: #F9FAFB;">${slot.arena}</strong> - ${slot.date} @ ${slot.time}
-          <br><a href="${slot.link}" target="_blank" style="color: #3B82F6; text-decoration: underline;">Book on Ottawa.ca &rarr;</a>
+        <div class="filter-group-title">Booking Horizons</div>
+        <div class="badge-list">
+            <span class="badge window" id="dateRangeBadge">Instant Online Booking (15-Day)</span>
+            <span class="badge target" id="targetDateBadge">20-Day View Window</span>
         </div>
-      `;
-    });
-    container.innerHTML = html;
-  } catch (err) {
-    container.innerHTML = '<p style="color: #EF4444;">Could not retrieve live slot data. Opening standard rinks...</p>';
-  }
-}
+
+        <div class="filter-group-title">East/Central Arenas (10)</div>
+        <div class="badge-list">
+            <span class="badge">Bob MacQuarrie</span>
+            <span class="badge">Ray Friel</span>
+            <span class="badge">Richcraft Sensplex (East)</span>
+            <span class="badge">Lois Kemp (Blackburn)</span>
+            <span class="badge">R.J. Kennedy (Cumberland)</span>
+            <span class="badge">Navan</span>
+            <span class="badge">Earl Armstrong</span>
+            <span class="badge">Canterbury (Brian Kilrea)</span>
+            <span class="badge">Bernard-Grandmaître</span>
+            <span class="badge">Jim Durrell</span>
+        </div>
+
+        <button class="btn-refresh" onclick="checkAvailability()">Check Rink Calendars</button>
+    </div>
+
+    <div id="results-container" class="slots-container">
+        <!-- Results injected here -->
+    </div>
+
+    <div class="status-tracker" id="lastChecked">
+        Status: Loaded
+    </div>
+
+    <script>
+        function updateDateBadges() {
+            const dateBadge = document.getElementById('dateRangeBadge');
+            const targetBadge = document.getElementById('targetDateBadge');
+            
+            const today = new Date();
+            
+            const max15 = new Date();
+            max15.setDate(today.getDate() + 15);
+
+            const target20 = new Date();
+            target20.setDate(today.getDate() + 20);
+            
+            const formatDate = (d) => (d.getMonth() + 1) + '/' + d.getDate();
+            
+            dateBadge.innerText = `Online Checkout: ${formatDate(today)} – ${formatDate(max15)}`;
+            targetBadge.innerText = `Viewing Window: Up to ${formatDate(target20)}`;
+        }
+
+        async function checkAvailability() {
+            const container = document.getElementById('results-container');
+            const status = document.getElementById('lastChecked');
+            
+            updateDateBadges();
+            container.innerHTML = '<div class="empty-state"><p>Loading latest ice availability...</p></div>';
+
+            const ottawaDirectUrl = "https://register.ottawa.ca/facility/search";
+            const sensplexDirectUrl = "https://www.sensplex.ca/spare-ice/";
+
+            try {
+                // Fetch ice_data.json from root directory
+                const response = await fetch('../ice_data.json?t=' + new Date().getTime());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.slots || data.slots.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <p><strong>No target 4:00 PM or weekend ice slots currently available in the system.</strong></p>
+                            <p style="margin-top: 5px; font-size: 0.85rem; color: #666;">
+                                Last background check: ${data.last_updated || 'Just now'}
+                            </p>
+                            
+                            <div class="tip-box">
+                                <strong>Strategy Tip:</strong> If you spot an open slot on Ottawa.ca for 20 days out, set a reminder for 5 days from today when online booking opens at last-minute rates.
+                            </div>
+
+                            <div class="button-group">
+                                <a href="${ottawaDirectUrl}" target="_blank" class="btn-link btn-ottawa">Open Register.Ottawa.ca Calendar</a>
+                                <a href="${sensplexDirectUrl}" target="_blank" class="btn-link btn-sensplex">Open Richcraft Sensplex Spare Ice</a>
+                            </div>
+                        </div>
+                    `;
+                    status.innerText = "Last checked: " + (data.last_updated || new Date().toLocaleTimeString());
+                    return;
+                }
+
+                let html = `<p style="color: #666; font-size: 0.85rem; margin-bottom: 8px;">Last background update: ${data.last_updated}</p>`;
+                
+                data.slots.forEach(slot => {
+                    html += `
+                        <div style="background: var(--card-bg); border-left: 5px solid var(--accent-green); padding: 14px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                            <strong style="font-size: 1rem; color: var(--secondary);">${slot.arena}</strong>
+                            <div style="font-size: 0.9rem; color: #444; margin: 4px 0;">${slot.date} @ ${slot.time}</div>
+                            <a href="${slot.link || ottawaDirectUrl}" target="_blank" style="display: inline-block; margin-top: 6px; color: var(--sensplex-blue); font-weight: bold; text-decoration: underline; font-size: 0.85rem;">Book on Ottawa.ca &rarr;</a>
+                        </div>
+                    `;
+                });
+
+                html += `
+                    <div class="button-group" style="margin-top: 15px;">
+                        <a href="${ottawaDirectUrl}" target="_blank" class="btn-link btn-ottawa">Open Register.Ottawa.ca Calendar</a>
+                        <a href="${sensplexDirectUrl}" target="_blank" class="btn-link btn-sensplex">Open Richcraft Sensplex Spare Ice</a>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+                status.innerText = "Last checked: " + new Date().toLocaleTimeString();
+
+            } catch (err) {
+                console.error("Ice fetch error:", err);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p><strong>Checking active date windows...</strong></p>
+                        <p style="margin-top: 8px; font-size: 0.85rem; color: #555;">
+                            No cached slot file found yet. The initial background scraper run may still be in progress on GitHub.
+                        </p>
+                        <div class="button-group">
+                            <a href="${ottawaDirectUrl}" target="_blank" class="btn-link btn-ottawa">Open Register.Ottawa.ca Calendar</a>
+                            <a href="${sensplexDirectUrl}" target="_blank" class="btn-link btn-sensplex">Open Richcraft Sensplex Spare Ice</a>
+                        </div>
+                    </div>
+                `;
+                status.innerText = "Last checked: " + new Date().toLocaleTimeString();
+            }
+        }
+
+        // Initialize on load
+        checkAvailability();
+    </script>
+</body>
+</html>
