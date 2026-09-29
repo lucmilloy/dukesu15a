@@ -1,11 +1,5 @@
-- name: Fetch Live Ice Data
-        run: |
-          python ice/fetch_ice.py
-
-      - name: Commit and Push
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add ice/ice_data.json
-          git diff-index --quiet HEAD || git commit -m "Auto-update East Ottawa Ice Times"
-          git push
+{
+  "last_updated": "2026-09-29T17:30:35.826633Z",
+  "count": 0,
+  "slots": []
+}
