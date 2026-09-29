@@ -2,7 +2,6 @@ import json
 import urllib.request
 from datetime import datetime
 
-# East Ottawa Arenas
 EAST_OTTAWA_FACILITIES = [
     "Bob MacQuarrie",
     "Ray Friel",
@@ -31,10 +30,10 @@ def fetch_live_east_ottawa_ice():
 
     req = urllib.request.Request(API_URL, data=payload, headers=headers, method='POST')
     
-    try:  
+    try:
         with urllib.request.urlopen(req) as response:
             data = json.loads(response.read().decode())
-            all_slots = data.get('body', {}).get('reservations', []) 
+            all_slots = data.get('body', {}).get('reservations', [])
             
             east_ottawa_slots = []
             for slot in all_slots:
@@ -58,13 +57,15 @@ def fetch_live_east_ottawa_ice():
                 "slots": east_ottawa_slots
             }
             
+            # Saves explicitly into ice/ice_data.json
             with open("ice/ice_data.json", "w") as f:
                 json.dump(output, f, indent=2)
                 
-            print(f"Successfully updated ice_data.json with {len(east_ottawa_slots)} slots.")
+            print(f"Successfully updated ice/ice_data.json with {len(east_ottawa_slots)} slots.")
 
     except Exception as e:
         print(f"Error fetching ice data: {e}")
+        raise e
 
 if __name__ == "__main__":
     fetch_live_east_ottawa_ice()
