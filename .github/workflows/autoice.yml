@@ -2,8 +2,8 @@ name: autoice scrapper
 
 on:
   schedule:
-    - cron: '0 */2 * * *'
-  workflow_dispatch:
+    - cron: '0 */2 * * *' # Runs every 2 hours
+  workflow_dispatch:      # Manual trigger
 
 jobs:
   scrape:
