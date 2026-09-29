@@ -10,63 +10,59 @@
       background: #0f172a;
       color: #f8fafc;
       margin: 0;
-      padding: 16px;
+      padding: 20px;
     }
     .container {
-      max-width: 1100px;
+      max-width: 900px;
       margin: 0 auto;
     }
     h1 {
       text-align: center;
       color: #38bdf8;
-      margin: 10px 0 4px 0;
+      margin-bottom: 6px;
     }
     p.subtitle {
       text-align: center;
       color: #94a3b8;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       font-size: 0.95rem;
     }
-    .iframe-wrapper {
-      position: relative;
-      width: 100%;
-      height: 75vh;
-      min-height: 600px;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card {
       background: #1e293b;
       border: 1px solid #334155;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .quick-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #1e293b;
-      padding: 12px 16px;
       border-radius: 8px;
-      margin-bottom: 16px;
-      border: 1px solid #334155;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    .quick-bar span {
-      font-size: 0.9rem;
-      color: #cbd5e1;
+    .card h3 {
+      margin: 0 0 6px 0;
+      color: #f1f5f9;
+      font-size: 1.1rem;
     }
-    .portal-btn {
+    .card p {
+      margin: 0 0 16px 0;
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+    .btn {
+      display: block;
       background: #0284c7;
       color: white;
       text-decoration: none;
-      padding: 8px 14px;
+      padding: 10px;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      text-align: center;
     }
-    .portal-btn:hover {
+    .btn:hover {
       background: #0369a1;
     }
   </style>
@@ -75,15 +71,56 @@
 
 <div class="container">
   <h1>East Ottawa Last-Minute Ice Finder</h1>
-  <p class="subtitle">Live availability directly from the City of Ottawa portal</p>
+  <p class="subtitle">Direct live search launcher for Cumberland Dukes team coaches & managers</p>
 
-  <div class="quick-bar">
-    <span><strong>Target Arenas:</strong> Bob MacQuarrie, Ray Friel, Earl Armstrong, Navan, Grandmaître, St-Laurent, Canterbury, Lois Kemp, Cumberland</span>
-    <a href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener" class="portal-btn">Open Full Screen ↗</a>
-  </div>
+  <div class="grid">
+    <div class="card">
+      <div>
+        <h3>Bob MacQuarrie Complex</h3>
+        <p>Elizabeth Manley & Roger Sénécal Rinks (Orléans)</p>
+      </div>
+      <a class="btn" href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener">Search Bob MacQuarrie Ice ↗</a>
+    </div>
 
-  <div class="iframe-wrapper">
-    <iframe src="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" title="City of Ottawa Last Minute Ice Portal"></iframe>
+    <div class="card">
+      <div>
+        <h3>Ray Friel Recreation Complex</h3>
+        <p>Rinks 1, 2, and 3 (Fallingbrook)</p>
+      </div>
+      <a class="btn" href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener">Search Ray Friel Ice ↗</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Earl Armstrong Arena</h3>
+        <p>Ogilvie Road (Gloucester)</p>
+      </div>
+      <a class="btn" href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener">Search Earl Armstrong Ice ↗</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Bernard-Grandmaître & St-Laurent</h3>
+        <p>Vanier / St-Laurent Community Centre</p>
+      </div>
+      <a class="btn" href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener">Search Central-East Ice ↗</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Navan & Cumberland Arenas</h3>
+        <p>Navan Memorial Centre & Rural East</p>
+      </div>
+      <a class="btn" href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener">Search Navan & Rural Ice ↗</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Lois Kemp & Canterbury</h3>
+        <p>Blackburn Hamlet & Canterbury Rinks</p>
+      </div>
+      <a class="btn" href="https://ca.apm.activecommunities.com/ottawa/Reserve_Options" target="_blank" rel="noopener">Search Blackburn & Canterbury Ice ↗</a>
+    </div>
   </div>
 </div>
 
