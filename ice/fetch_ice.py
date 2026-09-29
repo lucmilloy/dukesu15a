@@ -8,68 +8,64 @@ EAST_OTTAWA_FACILITIES = [
     "Bernard-Grandmaître", "St-Laurent", "Canterbury", "Lois Kemp", "Cumberland"
 ]
 
-def fetch_real_ice():
+def fetch_ottawa_ice():
     captured_slots = []
 
     with sync_playwright() as p:
-        # Launch headless browser with full user-agent spoofing
+        # Launch browser with real-user emulation
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            viewport={'width': 1280, 'height': 800}
         )
         page = context.new_page()
 
-        # Listen for internal API responses while the page loads
-        def handle_response(response):
-            if "reservation/search" in response.url or "reservation/quicksearch" in response.url:
+        # Intercept background XHR/Fetch API responses
+        def intercept_response(response):
+            if "Reserve_Options" in response.url or "resource" in response.url or "search" in response.url:
                 try:
                     data = response.json()
-                    reservations = data.get('body', {}).get('reservations', []) or data.get('reservations', []) or []
-                    
-                    for slot in reservations:
-                        fac_name = slot.get('facility_name', '') or slot.get('center_name', '')
-                        if any(east_fac.lower() in fac_name.lower() for east_fac in EAST_OTTAWA_FACILITIES):
+                    # Parse potential slot structures returned by ActiveNet
+                    items = data.get('body', {}).get('results', []) or data.get('results', []) or []
+                    for item in items:
+                        fac_name = item.get('facility_name', '') or item.get('resource_name', '')
+                        if any(fac.lower() in fac_name.lower() for fac in EAST_OTTAWA_FACILITIES):
                             captured_slots.append({
-                                "id": str(slot.get("reservation_id") or slot.get("id")),
+                                "id": str(item.get('id') or len(captured_slots) + 1),
                                 "facility": fac_name,
-                                "rink": slot.get("sub_facility_name") or slot.get("room_name") or "Main Rink",
-                                "date": slot.get("start_date") or slot.get("date"),
-                                "startTime": slot.get("start_time"),
-                                "endTime": slot.get("end_time"),
-                                "duration": slot.get("duration_minutes", 60),
-                                "price": float(slot.get("rate") or slot.get("price") or 156.00),
-                                "directUrl": f"https://ca.apm.activecommunities.com/ottawa/Reserve_Options?facility_id={slot.get('facility_id', '')}"
+                                "rink": item.get('sub_facility_name', 'Main Rink'),
+                                "date": item.get('start_date'),
+                                "startTime": item.get('start_time'),
+                                "endTime": item.get('end_time'),
+                                "price": item.get('rate', 156.00),
+                                "directUrl": "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
                             })
                 except Exception:
                     pass
 
-        page.on("response", handle_response)
+        page.on("response", intercept_response)
 
-        # Navigate to ActiveNet calendar
         try:
-            print("Opening ActiveNet Portal via Playwright...")
-            page.goto("https://ca.apm.activecommunities.com/ottawa/ActiveNet_Calendar", wait_until="networkidle", timeout=30000)
-            page.wait_for_timeout(5000)  # Allow background XHR requests to complete
+            # Load the public Last-Minute Ice page directly
+            page.goto("https://ca.apm.activecommunities.com/ottawa/Reserve_Options", wait_until="networkidle", timeout=45000)
+            page.wait_for_timeout(5000)
         except Exception as e:
-            print(f"Browser navigation notice: {e}")
+            print(f"Navigation note: {e}")
 
         browser.close()
 
-    # Deduplicate slots by ID
-    unique_slots = {s['id']: s for s in captured_slots}.values()
-    final_slots = list(unique_slots)
-
-    output = {
+    # Fallback/Safety Check: Ensure JSON remains structured
+    output_data = {
         "last_updated": datetime.utcnow().isoformat() + "Z",
-        "count": len(final_slots),
-        "slots": final_slots
+        "count": len(captured_slots),
+        "slots": captured_slots
     }
 
     output_path = "ice/ice_data.json" if os.path.exists("ice") else "ice_data.json"
     with open(output_path, "w") as f:
-        json.dump(output, f, indent=2)
+        json.dump(output_data, f, indent=2)
 
-    print(f"Successfully captured and saved {len(final_slots)} live ice slots.")
+    print(f"Scrape completed: {len(captured_slots)} slots recorded.")
 
 if __name__ == "__main__":
-    fetch_real_ice()
+    fetch_ottawa_ice()
