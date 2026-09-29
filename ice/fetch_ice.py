@@ -1,76 +1,79 @@
 import os
 import json
-import re
+import time
 from datetime import datetime
 from playwright.sync_api import sync_playwright
 
-LMI_URL = "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
+LMI_ENTRY_URL = "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
 
-# Official ActiveNet facility identifiers for East Ottawa LMI arenas
-EAST_ARENAS = [
-    "BobMacQuarrie", "Earl Armstrong", "Ray Friel", "Navan",
+EAST_KEYWORDS = [
+    "Bob MacQuarrie", "Ray Friel", "Earl Armstrong", "Navan",
     "Bernard Grandmaître", "St-Laurent", "Canterbury", "Lois Kemp", "Cumberland"
 ]
 
-def scrape_lmi():
-    captured_slots = []
+def capture_lmi_api():
+    captured_results = []
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        # Launch real headful browser simulation
+        browser = p.chromium.launch(
+            headless=True,
+            args=["--disable-blink-features=AutomationControlled"]
+        )
         context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
             viewport={"width": 1400, "height": 900}
         )
         page = context.new_page()
 
-        print("Opening Register Ottawa LMI portal...")
-        try:
-            page.goto(LMI_URL, wait_until="networkidle", timeout=60000)
-            page.wait_for_timeout(3000)
-        except Exception as e:
-            print(f"Navigation warning: {e}")
-
-        # Extract initial facility cards
-        cards = page.locator('.resource-result-item, tr.resource-row, div[class*="resource-item"]').all()
-        print(f"Found {len(cards)} facility entries on portal.")
-
-        for card in cards:
-            try:
-                text = card.inner_text().strip()
-                if not text:
-                    continue
-
-                # Filter for East Ottawa arenas
-                if any(arena.lower() in text.lower() for arena in EAST_ARENAS):
-                    # Check if there are direct reserve links inside the row/card
-                    links = card.locator('a').all()
-                    for link in links:
-                        link_text = link.inner_text().strip()
-                        href = link.get_attribute("href") or ""
-
-                        # Capture hyperlinked available time slots or reservation targets
-                        if href and ("Reserve" in href or "resource" in href or "Calendar" in href):
-                            full_url = href if href.startswith("http") else f"https://ca.apm.activecommunities.com/ottawa/{href}"
-                            
-                            captured_slots.append({
-                                "id": f"slot-{len(captured_slots) + 1}",
-                                "facility": text.split("\n")[0] if text else "East Ottawa Arena",
-                                "details": text.replace("\n", " | "),
-                                "directUrl": full_url
+        # Intercept background XHR/Fetch JSON responses from ActiveNet
+        def handle_response(response):
+            if "search" in response.url.lower() or "resource" in response.url.lower():
+                try:
+                    data = response.json()
+                    # Parse ActiveNet JSON response structure
+                    items = data.get("body", {}).get("results", []) or data.get("results", [])
+                    for item in items:
+                        name = item.get("resource_name", "") or item.get("name", "")
+                        if any(kw.lower() in name.lower() for kw in EAST_KEYWORDS):
+                            captured_results.append({
+                                "id": f"slot-{len(captured_results) + 1}",
+                                "facility": name,
+                                "date": item.get("start_date", "Available"),
+                                "time": f"{item.get('start_time', '')} - {item.get('end_time', '')}",
+                                "directUrl": "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
                             })
-            except Exception as err:
-                continue
+                except Exception:
+                    pass
+
+        page.on("response", handle_response)
+
+        try:
+            print("Connecting to Register Ottawa LMI portal...")
+            page.goto(LMI_ENTRY_URL, wait_until="networkidle", timeout=60000)
+            page.wait_for_timeout(5000)
+
+            # Trigger real interaction on input to fire API requests
+            search_box = page.locator('input[type="text"]').first
+            if search_box.is_visible():
+                search_box.click()
+                search_box.fill("Arena")
+                page.keyboard.press("Enter")
+                page.wait_for_timeout(5000)
+
+        except Exception as e:
+            print(f"Browser navigation note: {e}")
 
         browser.close()
 
-    # Deduplicate results
+    # Deduplicate captured results
     unique_slots = []
     seen = set()
-    for slot in captured_slots:
-        key = (slot["facility"], slot["details"])
+    for item in captured_results:
+        key = (item["facility"], item["time"])
         if key not in seen:
             seen.add(key)
-            unique_slots.append(slot)
+            unique_slots.append(item)
 
     output_data = {
         "last_updated": datetime.utcnow().isoformat() + "Z",
@@ -78,13 +81,11 @@ def scrape_lmi():
         "slots": unique_slots
     }
 
-    # Save to file
-    out_dir = "ice" if os.path.exists("ice") else "."
-    out_file = os.path.join(out_dir, "ice_data.json")
+    out_file = "ice/ice_data.json" if os.path.exists("ice") else "ice_data.json"
     with open(out_file, "w") as f:
         json.dump(output_data, f, indent=2)
 
-    print(f"Scrape complete. Output written to {out_file} ({len(unique_slots)} slots recorded).")
+    print(f"Done! Extracted {len(unique_slots)} slots directly from ActiveNet API.")
 
 if __name__ == "__main__":
-    scrape_lmi()
+    capture_lmi_api()
