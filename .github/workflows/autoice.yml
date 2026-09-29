@@ -2,8 +2,8 @@ name: autoice scrapper
 
 on:
   schedule:
-    - cron: '0 */2 * * *' # Runs every 2 hours
-  workflow_dispatch:      # Allows manual trigger
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -16,6 +16,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Install Playwright & Dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
 
       - name: Fetch Live Ice Data
         run: python ice/fetch_ice.py
