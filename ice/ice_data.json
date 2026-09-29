@@ -1,39 +1,5 @@
 {
-  "last_updated": "2026-09-29T17:53:33.988122Z",
-  "count": 3,
-  "slots": [
-    {
-      "id": "BM-01",
-      "facility": "Bob MacQuarrie Recreation Complex",
-      "rink": "Elizabeth Manley Rink",
-      "date": "2026-09-30",
-      "startTime": "18:00",
-      "endTime": "19:00",
-      "duration": 60,
-      "price": 156.0,
-      "directUrl": "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
-    },
-    {
-      "id": "RF-02",
-      "facility": "Ray Friel Recreation Complex",
-      "rink": "Rink 1",
-      "date": "2026-09-30",
-      "startTime": "20:00",
-      "endTime": "21:00",
-      "duration": 60,
-      "price": 156.0,
-      "directUrl": "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
-    },
-    {
-      "id": "EA-03",
-      "facility": "Earl Armstrong Arena",
-      "rink": "Main Rink",
-      "date": "2026-10-01",
-      "startTime": "17:30",
-      "endTime": "18:30",
-      "duration": 60,
-      "price": 156.0,
-      "directUrl": "https://ca.apm.activecommunities.com/ottawa/Reserve_Options"
-    }
-  ]
+  "last_updated": "2026-09-29T17:58:09.783040Z",
+  "count": 0,
+  "slots": []
 }
