@@ -1,0 +1,27 @@
+name: Update East Ottawa Ice Data
+
+on:
+  schedule:
+    - cron: '0 */2 * * *' # Runs every 2 hours
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Fetch Live Ice Data
+        run: |
+          cd ice
+          python fetch_ice.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ice/ice_data.json
+          git diff-index --quiet HEAD || git commit -m "Auto-update East Ottawa Ice Times"
+          git push
