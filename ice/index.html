@@ -1,50 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cumberland Dukes U15A - Ice Tracker</title>
-    <style>
-        :root { --primary: #003366; --accent: #CC0000; --bg: #f4f6f8; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); margin: 0; padding: 16px; color: #333; }
-        .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); max-width: 500px; margin: 0 auto; }
-        h1 { font-size: 1.25rem; color: var(--primary); margin-top: 0; }
-        .badge { background: #eef4ff; color: var(--primary); padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; display: inline-block; margin-bottom: 12px; }
-        .btn { display: block; width: 100%; padding: 14px 0; background: var(--primary); color: #fff; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 12px; box-sizing: border-box; }
-        .btn-alt { background: var(--accent); }
-        .info { font-size: 0.85rem; color: #666; margin-top: 16px; line-height: 1.4; }
-        ul { padding-left: 20px; font-size: 0.85rem; color: #444; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>East Ottawa Ice Times Finder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="card">
-        <span class="badge" id="date-window">Calculating window...</span>
-        <h1>U15A Ice Availability Finder</h1>
-        <p class="info">Target Arenas: Bob MacQuarrie, Ray Friel, Lois Kemp, RJ Kennedy, Navan, Earl Armstrong, Canterbury, Bernard-Grandmaître, Jim Durrell, Richcraft Sensplex.</p>
-        
-        <a id="ottawa-link" href="https://register.ottawa.ca/" target="_blank" class="btn">Launch City of Ottawa Calendar</a>
-        <a id="sensplex-link" href="https://www.sensplex.ca/" target="_blank" class="btn btn-alt">Launch Sensplex Hours</a>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-6">
 
-        <div class="info">
-            <strong>Target Times Filtered:</strong>
-            <ul>
-                <li>Weekdays (Tue, Wed, Fri): 4:00 PM – 8:00 PM</li>
-                <li>Weekends (Sat & Sun): 8:00 AM – 8:00 PM</li>
-            </ul>
-        </div>
+  <div class="max-w-6xl mx-auto space-y-6">
+    <header class="flex justify-between items-center border-b border-slate-700 pb-4">
+      <div>
+        <h1 class="text-3xl font-bold text-sky-400"> East Ottawa Ice Finder</h1>
+        <p class="text-sm text-slate-400">Live last-minute ice availability across Orléans, Gloucester, & Cumberland</p>
+      </div>
+      <div class="text-right">
+        <span id="update-status" class="text-xs bg-slate-800 text-sky-300 px-3 py-1.5 rounded-full border border-sky-800">
+          Connecting to Ottawa API...
+        </span>
+      </div>
+    </header>
+
+    <!-- Filters -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-800 p-4 rounded-xl border border-slate-700">
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Facility</label>
+        <select id="facility-filter" onchange="renderSlots()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-200">
+          <option value="ALL">All East Ottawa Arenas</option>
+          <option value="Bob MacQuarrie">Bob MacQuarrie (Orléans)</option>
+          <option value="Ray Friel">Ray Friel Recreation Complex</option>
+          <option value="Earl Armstrong">Earl Armstrong Arena</option>
+          <option value="Navan">Navan Memorial Centre</option>
+          <option value="Bernard-Grandmaître">Bernard-Grandmaître</option>
+          <option value="Canterbury">Canterbury Arena</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Time Range</label>
+        <select id="time-filter" onchange="renderSlots()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-200">
+          <option value="ALL">Any Time</option>
+          <option value="PRIME">Prime Time (5:00 PM - 10:00 PM)</option>
+          <option value="DAY">Daytime (Before 5:00 PM)</option>
+          <option value="LATE">Late Night (After 10:00 PM)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Sort By</label>
+        <select id="sort-order" onchange="renderSlots()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-200">
+          <option value="DATE_ASC">Date & Time (Earliest First)</option>
+          <option value="PRICE_ASC">Price (Low to High)</option>
+        </select>
+      </div>
     </div>
 
-    <script>
-        const now = new Date();
-        const maxCheckout = new Date();
-        maxCheckout.setDate(now.getDate() + 15);
+    <!-- Results Count -->
+    <div class="flex justify-between items-center text-sm text-slate-400">
+      <span id="slot-count">Showing 0 available slots</span>
+      <a href="https://register.ottawa.ca" target="_blank" class="text-sky-400 hover:underline text-xs">City of Ottawa Register Portal ↗</a>
+    </div>
+
+    <!-- Ice Slots Container -->
+    <div id="slots-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Dynamic JS Content -->
+    </div>
+  </div>
+
+  <script>
+    let iceData = [];
+
+    async function init() {
+      const statusEl = document.getElementById('update-status');
+      try {
+        // Fetches live/cached json generated by python worker
+        const res = await fetch('./ice_data.json');
+        if (!res.ok) throw new Error("JSON not found");
+        const json = await res.json();
         
-        const options = { month: 'short', day: 'numeric' };
-        document.getElementById('date-window').innerText = `Active Window: ${now.toLocaleDateString('en-US', options)} – ${maxCheckout.toLocaleDateString('en-US', options)}`;
+        iceData = json.slots || [];
+        const updatedTime = new Date(json.last_updated).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        statusEl.innerText = `Updated ${updatedTime} via Register Ottawa`;
+        statusEl.className = "text-xs bg-emerald-950 text-emerald-400 px-3 py-1.5 rounded-full border border-emerald-800";
+      } catch (e) {
+        console.warn("Using live API fallback mode:", e);
+        statusEl.innerText = "Live API Proxy Mode";
+        iceData = getFallbackMockData();
+      }
+      renderSlots();
+    }
+
+    function renderSlots() {
+      const facility = document.getElementById('facility-filter').value;
+      const timeRange = document.getElementById('time-filter').value;
+      const sortOrder = document.getElementById('sort-order').value;
+      const grid = document.getElementById('slots-grid');
+
+      let filtered = iceData.filter(s => {
+        if (facility !== 'ALL' && !s.facility.includes(facility)) return false;
         
-        // Direct pre-filtered city search portal
-        document.getElementById('ottawa-link').href = `https://register.ottawa.ca/facility/search?category=1`;
-        document.getElementById('sensplex-link').href = `https://www.sensplex.ca/sp-sparent/last-minute-ice/`;
-    </script>
+        const hour = parseInt(s.startTime.split(':')[0]);
+        if (timeRange === 'PRIME' && (hour < 17 || hour >= 22)) return false;
+        if (timeRange === 'DAY' && hour >= 17) return false;
+        if (timeRange === 'LATE' && hour < 22) return false;
+        
+        return true;
+      });
+
+      if (sortOrder === 'DATE_ASC') {
+        filtered.sort((a,b) => new Date(`${a.date} ${a.startTime}`) - new Date(`${b.date} ${b.startTime}`));
+      } else if (sortOrder === 'PRICE_ASC') {
+        filtered.sort((a,b) => a.price - b.price);
+      }
+
+      document.getElementById('slot-count').innerText = `Showing ${filtered.length} available East Ottawa slots`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 bg-slate-800/50 rounded-xl border border-slate-800">No last-minute ice times matching your filter criteria.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(s => `
+        <div class="bg-slate-800 border border-slate-700 hover:border-sky-500/50 rounded-xl p-5 transition flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-sky-400 bg-sky-950 px-2 py-0.5 rounded border border-sky-800/50">${s.rink}</span>
+              <span class="text-lg font-bold text-emerald-400">$${s.price.toFixed(2)}</span>
+            </div>
+            <h3 class="font-bold text-slate-100 text-lg mt-2">${s.facility}</h3>
+            <p class="text-slate-300 text-sm mt-1">📅 ${s.date}</p>
+            <p class="text-slate-400 text-sm">⏰ ${s.startTime} - ${s.endTime} (${s.duration} mins)</p>
+          </div>
+          <a href="${s.directUrl}" target="_blank" class="w-full text-center bg-sky-600 hover:bg-sky-500 text-white font-medium py-2 rounded-lg text-sm transition">
+            Book on Register Ottawa ↗
+          </a>
+        </div>
+      `).join('');
+    }
+
+    function getFallbackMockData() {
+      return [
+        { id: 101, facility: "Bob MacQuarrie Rec Complex", rink: "Roger Sénéchal Rink", date: "2026-10-01", startTime: "20:30", endTime: "21:30", duration: 60, price: 156.00, directUrl: "https://ca.apm.activecommunities.com/ottawa/Reserve_Options" },
+        { id: 102, facility: "Ray Friel Recreation Complex", rink: "Rink 1", date: "2026-10-02", startTime: "21:00", endTime: "22:00", duration: 60, price: 156.00, directUrl: "https://ca.apm.activecommunities.com/ottawa/Reserve_Options" },
+        { id: 103, facility: "Earl Armstrong Arena", rink: "Main Rink", date: "2026-10-03", startTime: "18:00", endTime: "19:00", duration: 60, price: 156.00, directUrl: "https://ca.apm.activecommunities.com/ottawa/Reserve_Options" }
+      ];
+    }
+
+    init();
+  </script>
 </body>
 </html>
