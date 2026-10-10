@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cumberland Dukes U15 | Hockey Box Pool Leaderboard</title>
+  <style>
+    :root {
+      --primary-color: #003366; 
+      --secondary-color: #cc0000;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background-color: #002244;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    th {
+      background-color: var(--primary-color);
+      color: white;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #f1f5f9; }
+    .rank { font-weight: bold; text-align: center; width: 60px; }
+    .points { font-weight: bold; color: var(--secondary-color); text-align: right; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cumberland Dukes U15 Box Pool</h1>
+    <p class="subtitle">Live Leaderboard & Standings</p>
+
+    <div class="nav-buttons">
+      <a href="https://docs.google.com/spreadsheets/d/1Qo-KkRGbshhKZMyyVL4xbhjcfPCrdNQ4YoVePAd5AuA/edit?usp=drivesdk" target="_blank" class="btn">View Google Sheet</a>
+    </div>
+
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th class="rank">Rank</th>
+          <th>Participant Name</th>
+          <th style="text-align: right;">Total Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3" style="text-align:center;">Loading live standings...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Replace with your Published Google Sheet CSV URL
+    const CSV_URL = 'YOUR_PUBLISHED_GOOGLE_SHEETS_CSV_URL_HERE';
+
+    async function fetchLeaderboard() {
+      try {
+        const response = await fetch(CSV_URL);
+        const data = await response.text();
+        const rows = data.split('\n').map(row => row.split(','));
+        
+        const tbody = document.querySelector('#leaderboard tbody');
+        tbody.innerHTML = '';
+
+        let rank = 1;
+        for (let i = 1; i < rows.length; i++) {
+          const name = rows[i][0] ? rows[i][0].replace(/"/g, '').trim() : '';
+          const pts = rows[i][1] ? rows[i][1].replace(/"/g, '').trim() : '';
+
+          if (name) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="rank">${rank++}</td>
+              <td>${name}</td>
+              <td class="points">${pts}</td>
+            `;
+            tbody.appendChild(tr);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching leaderboard:', err);
+        document.querySelector('#leaderboard tbody').innerHTML = `<tr><td colspan="3" style="text-align:center; color:red;">Unable to load standings. Check CSV URL.</td></tr>`;
+      }
+    }
+
+    fetchLeaderboard();
+  </script>
+</body>
+</html>
