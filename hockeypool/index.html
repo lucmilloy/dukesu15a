@@ -104,8 +104,8 @@
   </div>
 
   <script>
-    // Replace with your Published Google Sheet CSV URL
-    const CSV_URL = https://docs.google.com/spreadsheets/d/e/2PACX-1vTvvppojZlQI-3QTow7yD7XhnTj-Dq40I8mOrWLHiXPAEJrYnTIap6Kj4R0IHoEQ9WQsjisUwlZwn60/pub?gid=2014613418&single=true&output=csv;
+    // Enclosed in quotes
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvvppojZlQI-3QTow7yD7XhnTj-Dq40I8mOrWLHiXPAEJrYnTIap6Kj4R0IHoEQ9WQsjisUwlZwn60/pub?gid=2014613418&single=true&output=csv';
 
     async function fetchLeaderboard() {
       try {
@@ -118,10 +118,11 @@
 
         let rank = 1;
         for (let i = 1; i < rows.length; i++) {
-          const name = rows[i][0] ? rows[i][0].replace(/"/g, '').trim() : '';
-          const pts = rows[i][1] ? rows[i][1].replace(/"/g, '').trim() : '';
+          // Fallback checks both Columns D & E (indices 3 & 4) and Columns A & B (indices 0 & 1)
+          const name = rows[i][3] ? rows[i][3].replace(/"/g, '').trim() : (rows[i][0] ? rows[i][0].replace(/"/g, '').trim() : '');
+          const pts = rows[i][4] ? rows[i][4].replace(/"/g, '').trim() : (rows[i][1] ? rows[i][1].replace(/"/g, '').trim() : '0');
 
-          if (name) {
+          if (name && name !== 'Participant Name' && name !== 'Sorted Name') {
             const tr = document.createElement('tr');
             tr.innerHTML = `
               <td class="rank">${rank++}</td>
