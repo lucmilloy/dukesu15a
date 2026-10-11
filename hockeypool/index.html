@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cumberland Dukes U15 - Hockey Pool</title>
-    <!-- Google Fonts for a modern, athletic look -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0f172a; /* Dark navy/slate */
-            --accent-color: #e11d48; /* Hockey red accent */
-            --gold-color: #f59e0b; /* Trophy/Leaderboard gold */
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --bg-color: #0b0f19;
+            --card-bg: #161f32;
+            --card-border: #23314d;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-red: #e11d48;
+            --accent-red-hover: #be123c;
+            --gold: #f59e0b;
+            --silver: #cbd5e1;
+            --bronze: #d97706;
+            --green: #10b981;
         }
 
         * {
@@ -27,17 +30,16 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary-color), #1e293b);
-            color: white;
-            padding: 2.5rem 1rem;
+            background: linear-gradient(180deg, #1e293b 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--card-border);
+            padding: 2.5rem 1rem 2rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
@@ -45,18 +47,74 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            color: #ffffff;
+            margin-bottom: 0.4rem;
         }
 
         header p {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            font-weight: 600;
+            color: var(--accent-red);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+        }
+
+        /* Countdown Timer */
+        .countdown-container {
+            margin: 1.5rem auto 0 auto;
+            background: rgba(225, 29, 72, 0.1);
+            border: 1px solid rgba(225, 29, 72, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: inline-block;
+            max-width: 90%;
+        }
+
+        .countdown-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .countdown-clock {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .clock-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .clock-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .clock-sep {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-red);
         }
 
         .container {
-            max-width: 900px;
-            margin: -2rem auto 2rem auto;
+            max-width: 950px;
+            margin: 2rem auto;
             padding: 0 1rem;
             width: 100%;
             flex: 1;
@@ -64,84 +122,158 @@
 
         .card {
             background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
         }
 
-        .action-bar {
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
             flex-wrap: wrap;
             gap: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .btn {
-            background-color: var(--accent-color);
+            background-color: var(--accent-red);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 8px;
             font-weight: 700;
             text-decoration: none;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn:hover {
-            background-color: #be123c;
+            background-color: var(--accent-red-hover);
             transform: translateY(-1px);
         }
 
-        /* Leaderboard Table Styles */
+        /* Controls Bar */
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            background: #0b0f19;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-red);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            overflow: hidden;
-            border-radius: 8px;
         }
 
         th, td {
             padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--card-border);
         }
 
         th {
-            background-color: #f1f5f9;
-            color: var(--primary-color);
-            font-weight: 700;
+            background-color: #111827;
+            color: var(--text-muted);
+            font-size: 0.75rem;
             text-transform: uppercase;
-            font-size: 0.85rem;
             letter-spacing: 0.5px;
+            font-weight: 700;
         }
 
-        tr:hover {
-            background-color: #f8fafc;
+        tr:last-child td {
+            border-bottom: none;
         }
 
-        /* Top 3 rank highlights */
-        tr:nth-child(1) td:first-child { color: var(--gold-color); font-weight: 900; }
-        tr:nth-child(2) td:first-child { color: #94a3b8; font-weight: 900; }
-        tr:nth-child(3) td:first-child { color: #b45309; font-weight: 900; }
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
 
-        /* Sponsors Section */
+        .rank-badge {
+            font-weight: 800;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .rank-1 { background: var(--gold); color: #000; }
+        .rank-2 { background: var(--silver); color: #000; }
+        .rank-3 { background: var(--bronze); color: #fff; }
+
+        .points-cell {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-align: right;
+        }
+
+        .loading-state, .error-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Sponsors */
         .sponsors-section {
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 2px dashed #e2e8f0;
+            margin-top: 1rem;
         }
 
         .sponsors-section h3 {
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 1.5rem;
             font-weight: 700;
         }
@@ -149,107 +281,258 @@
         .sponsors-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem;
-            align-items: center;
-            justify-items: center;
+            gap: 1.25rem;
         }
 
         .sponsor-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
             padding: 1rem;
-            width: 100%;
-            height: 90px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s ease;
+            text-decoration: none;
         }
 
         .sponsor-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            border-color: var(--accent-red);
+            transform: translateY(-2px);
         }
 
         .sponsor-card img {
             max-width: 100%;
-            max-height: 60px;
+            max-height: 65px;
             object-fit: contain;
-            filter: grayscale(20%);
-            transition: filter 0.2s;
-        }
-
-        .sponsor-card:hover img {
-            filter: grayscale(0%);
+            filter: brightness(0.95);
         }
 
         footer {
             text-align: center;
             padding: 1.5rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Cumberland Dukes U15 Pool</h1>
-        <p>Live Leaderboard &amp; Standings</p>
+        <h1>Cumberland Dukes U15</h1>
+        <p>Official Hockey Box Pool</p>
+
+        <div class="countdown-container">
+            <div class="countdown-title">Draft / Entry Deadline</div>
+            <div class="countdown-clock" id="countdown">
+                <div class="clock-unit"><span class="clock-num" id="d">00</span><span class="clock-label">Days</span></div>
+                <div class="clock-sep">:</div>
+                <div class="clock-unit"><span class="clock-num" id="h">00</span><span class="clock-label">Hours</span></div>
+                <div class="clock-sep">:</div>
+                <div class="clock-unit"><span class="clock-num" id="m">00</span><span class="clock-label">Mins</span></div>
+                <div class="clock-sep">:</div>
+                <div class="clock-unit"><span class="clock-num" id="s">00</span><span class="clock-label">Secs</span></div>
+            </div>
+        </div>
     </header>
 
     <div class="container">
         <div class="card">
-            <div class="action-bar">
+            <div class="card-header">
                 <div>
-                    <h2 style="font-size: 1.3rem; color: var(--primary-color);">Current Standings</h2>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Updated live from the official draft sheet.</p>
+                    <h2 style="font-size: 1.25rem;">Live Leaderboard</h2>
                 </div>
-                <a href="https://docs.google.com/spreadsheets/d/1Qo-KkRGbshhKZMyyVL4xbhjcfPCrdNQ4YoVePAd5AuA/edit?usp=drivesdk" class="btn" target="_blank">View Full Spreadsheet</a>
+                <a href="https://docs.google.com/spreadsheets/d/1Qo-KkRGbshhKZMyyVL4xbhjcfPCrdNQ4YoVePAd5AuA/edit?usp=drivesdk" class="btn" target="_blank">
+                    Open Google Sheet ↗
+                </a>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 80px;">Rank</th>
-                        <th>Participant Name</th>
-                        <th style="text-align: right;">Total Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Your script or dynamic table rows load here -->
-                    <tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading live standings...</td></tr>
-                </tbody>
-            </table>
+            <div class="controls-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search participant..." onkeyup="filterTable()">
+                <div class="status-badge">
+                    <span class="dot"></span>
+                    <span id="lastUpdated">Live Standings</span>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="leaderboard">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">Rank</th>
+                            <th>Participant Name</th>
+                            <th style="text-align: right; width: 120px;">Total Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="3" class="loading-state">Loading live standings...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- SPONSORS SHOWCASE SECTION -->
         <div class="sponsors-section">
-            <h3>Proudly Supported By Our Team Sponsors</h3>
+            <h3>Proudly Sponsored By</h3>
             <div class="sponsors-grid">
-                <!-- Replace with your actual sponsor logo images and links -->
-                <a href="#" class="sponsor-card" target="_blank">
-                    <img src="../images/sponsors/sponsor1.png" alt="Sponsor Name">
-                </a>
-                <a href="#" class="sponsor-card" target="_blank">
-                    <img src="../images/sponsors/sponsor2.png" alt="Sponsor Name">
-                </a>
-                <a href="#" class="sponsor-card" target="_blank">
-                    <img src="../images/sponsors/sponsor3.png" alt="Sponsor Name">
-                </a>
-                <a href="#" class="sponsor-card" target="_blank">
-                    <img src="../images/sponsors/sponsor4.png" alt="Sponsor Name">
-                </a>
+                <div class="sponsor-card">
+                    <img src="images/toprankin.png" alt="TopRankin Mortgages" onerror="this.onerror=null; this.src='images/sponsor1.png';">
+                </div>
+                <div class="sponsor-card">
+                    <img src="images/applehvac.png" alt="Apple HVAC" onerror="this.onerror=null; this.src='images/sponsor2.png';">
+                </div>
+                <div class="sponsor-card">
+                    <img src="images/plumbing.png" alt="A Helping Hand Plumbing" onerror="this.onerror=null; this.src='images/sponsor3.png';">
+                </div>
+                <div class="sponsor-card">
+                    <img src="images/butcher.png" alt="Around the Block Meat Market" onerror="this.onerror=null; this.src='images/sponsor4.png';">
+                </div>
             </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 Cumberland Dukes U15 Hockey. All rights reserved.
+        &copy; 2026 Cumberland Dukes U15 Hockey Pool
     </footer>
 
+    <script>
+        const sheetId = '1Qo-KkRGbshhKZMyyVL4xbhjcfPCrdNQ4YoVePAd5AuA';
+        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+        let allData = [];
+
+        async function fetchStandings() {
+            try {
+                const response = await fetch(sheetUrl);
+                const csvText = await response.text();
+                parseCSV(csvText);
+            } catch (error) {
+                console.error("Error fetching sheet:", error);
+                document.getElementById('tableBody').innerHTML = `
+                    <tr>
+                        <td colspan="3" class="error-state">
+                            Unable to auto-load live standings.<br>
+                            <a href="https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=drivesdk" target="_blank" style="color:var(--accent-red); margin-top:0.5rem; inline-block;">Click here to view directly on Google Sheets</a>
+                        </td>
+                    </tr>`;
+            }
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.split('\n');
+            const rows = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const cleanLine = lines[i].replace(/\r/g, '');
+                if (!cleanLine.trim()) continue;
+                
+                // Parse CSV line taking quotes into account
+                const matches = cleanLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || cleanLine.split(',');
+                const cleanCols = matches.map(cell => cell.replace(/^"|"$/g, '').trim());
+                rows.push(cleanCols);
+            }
+
+            // Extract participant rows (handling title/header rows dynamically)
+            allData = [];
+            rows.forEach((row) => {
+                if (row.length >= 2) {
+                    const name = row[0] || row[1];
+                    const pts = parseInt(row[row.length - 1], 10);
+
+                    if (name && !isNaN(pts) && !name.toLowerCase().includes('rank') && !name.toLowerCase().includes('total')) {
+                        allData.push({ name: name, points: pts });
+                    }
+                }
+            });
+
+            // Sort descending by points
+            allData.sort((a, b) => b.points - a.points);
+            renderTable(allData);
+            
+            const now = new Date();
+            document.getElementById('lastUpdated').innerText = `Updated ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="loading-state">No standings data found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map((item, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'rank-1';
+                else if (rank === 2) rankClass = 'rank-2';
+                else if (rank === 3) rankClass = 'rank-3';
+
+                return `
+                    <tr>
+                        <td><span class="rank-badge ${rankClass}">${rank}</span></td>
+                        <td style="font-weight: 600;">${item.name}</td>
+                        <td class="points-cell">${item.points}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterTable() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allData.filter(item => item.name.toLowerCase().includes(query));
+            renderTable(filtered);
+        }
+
+        // Countdown Timer Logic to Target Monday 10:00 PM EST
+        function getTargetDeadline() {
+            const now = new Date();
+            let target = new Date();
+            
+            // Find next Monday
+            const dayOfWeek = now.getDay(); // 0 = Sun, 1 = Mon, ...
+            let daysUntilMonday = (1 - dayOfWeek + 7) % 7;
+            
+            // If today is Monday and it's already past 10 PM EST (22:00), target next Monday
+            target.setDate(now.getDate() + daysUntilMonday);
+            target.setHours(22, 0, 0, 0); // 10:00:00 PM
+
+            if (now > target) {
+                target.setDate(target.getDate() + 7);
+            }
+            return target;
+        }
+
+        const deadline = getTargetDeadline();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = deadline.getTime() - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "<div style='color:var(--accent-red); font-weight:900;'>DRAFT CLOSED</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('d').innerText = String(days).padStart(2, '0');
+            document.getElementById('h').innerText = String(hours).padStart(2, '0');
+            document.getElementById('m').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('s').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Initial Load
+        fetchStandings();
+    </script>
 </body>
 </html>
