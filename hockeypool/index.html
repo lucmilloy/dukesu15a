@@ -378,16 +378,16 @@
             <h3>Proudly Sponsored By</h3>
             <div class="sponsors-grid">
                 <div class="sponsor-card">
-                    <img src="images/toprankin.png" alt="TopRankin Mortgages" onerror="this.onerror=null; this.src='images/sponsor1.png';">
+                    <img src="../images/toprankin.png" alt="TopRankin Mortgages" onerror="this.onerror=null; this.src='../images/sponsor1.png';">
                 </div>
                 <div class="sponsor-card">
-                    <img src="images/applehvac.png" alt="Apple HVAC" onerror="this.onerror=null; this.src='images/sponsor2.png';">
+                    <img src="../images/applehvac.png" alt="Apple HVAC" onerror="this.onerror=null; this.src='../images/sponsor2.png';">
                 </div>
                 <div class="sponsor-card">
-                    <img src="images/plumbing.png" alt="A Helping Hand Plumbing" onerror="this.onerror=null; this.src='images/sponsor3.png';">
+                    <img src="../images/plumbing.png" alt="A Helping Hand Plumbing" onerror="this.onerror=null; this.src='../images/sponsor3.png';">
                 </div>
                 <div class="sponsor-card">
-                    <img src="images/butcher.png" alt="Around the Block Meat Market" onerror="this.onerror=null; this.src='images/sponsor4.png';">
+                    <img src="../images/butcher.png" alt="Around the Block Meat Market" onerror="this.onerror=null; this.src='../images/sponsor4.png';">
                 </div>
             </div>
         </div>
@@ -399,8 +399,6 @@
 
     <script>
         const pubKey = '2PACX-1vTvvppojZlQI-3QTow7yD7XhnTj-Dq40I8mOrWLHiXPAEJrYnTIap6Kj4R0IHoEQ9WQsjisUwlZwn60';
-        
-        // Use Google Visualization API to request specifically the Leaderboard sheet by name
         const gvizUrl = `https://docs.google.com/spreadsheets/d/e/${pubKey}/gviz/tq?sheet=Leaderboard&tqx=out:json`;
 
         let allData = [];
@@ -410,7 +408,6 @@
                 const response = await fetch(gvizUrl);
                 const text = await response.text();
                 
-                // Parse gviz JSON wrapper
                 const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
                 if (jsonMatch && jsonMatch[1]) {
                     const data = JSON.parse(jsonMatch[1]);
@@ -420,7 +417,6 @@
                 }
             } catch (error) {
                 console.error("Error fetching sheet:", error);
-                // Fallback: Hardcoded fallback matching your exact sheet list so it displays instantly if CORS blocks it
                 loadFallbackData();
             }
         }
