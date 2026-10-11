@@ -421,38 +421,56 @@
         }
 
         function parseCSV(csv) {
-            const lines = csv.split('\n');
-            const rows = [];
+            // Split lines considering standard newlines
+            const lines = csv.split(/\r?\n/);
+            allData = [];
 
             for (let i = 0; i < lines.length; i++) {
-                const cleanLine = lines[i].replace(/\r/g, '');
-                if (!cleanLine.trim()) continue;
-                
-                const matches = cleanLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || cleanLine.split(',');
-                const cleanCols = matches.map(cell => cell.replace(/^"|"$/g, '').trim());
-                rows.push(cleanCols);
-            }
+                const line = lines[i].trim();
+                if (!line) continue;
 
-            allData = [];
-            rows.forEach((row) => {
-                if (row.length >= 2) {
-                    let name = row[0];
-                    let ptsStr = row[row.length - 1];
+                // Robust CSV line parser matching quoted or unquoted cells
+                const cells = [];
+                const regex = /(?:^|,)(?:"([^"]*)"|([^",]*))/g;
+                let match;
+                while ((match = regex.exec(line)) !== null) {
+                    let val = match[1] !== undefined ? match[1] : match[2];
+                    cells.push(val ? val.trim() : '');
+                }
 
-                    // Handle cases where rank is in col 0 and name is in col 1
-                    if (/^\d+$/.test(name) && row.length >= 3) {
-                        name = row[1];
+                if (cells.length >= 2) {
+                    let name = cells[0];
+                    let ptsStr = cells[cells.length - 1];
+
+                    // If column 0 is a numerical Rank, pick column 1 as Name
+                    if (/^\d+$/.test(name) && cells.length >= 3) {
+                        name = cells[1];
                     }
+
+                    // Clean name quotes or artifacts
+                    name = name.replace(/^"|"$/g, '').trim();
 
                     const pts = parseInt(ptsStr, 10);
 
-                    if (name && !isNaN(pts) && !name.toLowerCase().includes('rank') && !name.toLowerCase().includes('total') && !name.toLowerCase().includes('participant')) {
+                    // Exclude header rows
+                    const isHeader = !name || 
+                        name.toLowerCase().includes('participant') || 
+                        name.toLowerCase().includes('total points') || 
+                        name.toLowerCase().includes('rank') ||
+                        isNaN(pts);
+
+                    if (!isHeader) {
                         allData.push({ name: name, points: pts });
                     }
                 }
-            });
+            }
 
-            // Sort descending by points
+            // Deduplicate in case published CSV duplicates rows
+            const uniqueMap = new Map();
+            allData.forEach(item => uniqueMap.set(item.name, item.points));
+            allData = Array.from(uniqueMap, ([name, points]) => ({ name, points }));
+
+            // Sort descending by total points
             allData.sort((a, b) => b.points - a.points);
             renderTable(allData);
             
