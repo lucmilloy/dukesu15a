@@ -398,25 +398,18 @@
     </footer>
 
     <script>
-        const pubKey = '2PACX-1vTvvppojZlQI-3QTow7yD7XhnTj-Dq40I8mOrWLHiXPAEJrYnTIap6Kj4R0IHoEQ9WQsjisUwlZwn60';
-        const gvizUrl = `https://docs.google.com/spreadsheets/d/e/${pubKey}/gviz/tq?sheet=Leaderboard&tqx=out:json`;
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvvppojZlQI-3QTow7yD7XhnTj-Dq40I8mOrWLHiXPAEJrYnTIap6Kj4R0IHoEQ9WQsjisUwlZwn60/pub?gid=2014613418&single=true&output=csv';
 
         let allData = [];
 
         async function fetchStandings() {
             try {
-                const response = await fetch(gvizUrl);
+                const response = await fetch(csvUrl);
+                if (!response.ok) throw new Error("Network response was not ok");
                 const text = await response.text();
-                
-                const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
-                if (jsonMatch && jsonMatch[1]) {
-                    const data = JSON.parse(jsonMatch[1]);
-                    parseGvizData(data);
-                } else {
-                    throw new Error("Invalid Gviz response");
-                }
+                parseCsvData(text);
             } catch (error) {
-                console.error("Error fetching sheet:", error);
+                console.error("Error fetching CSV sheet:", error);
                 loadFallbackData();
             }
         }
@@ -447,26 +440,48 @@
             ];
             allData = rawList;
             renderTable(allData);
-            document.getElementById('lastUpdated').innerText = "Live Leaderboard Loaded";
+            document.getElementById('lastUpdated').innerText = "Live Leaderboard Loaded (Fallback)";
         }
 
-        function parseGvizData(gvizJson) {
-            allData = [];
-            const table = gvizJson.table;
-            if (!table || !table.rows) {
-                loadFallbackData();
-                return;
+        // Helper to cleanly parse standard CSV rows handling quotes
+        function parseCSVLine(text) {
+            let result = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
             }
+            result.push(current.trim());
+            return result.map(val => val.replace(/^"|"$/g, ''));
+        }
 
-            table.rows.forEach(row => {
-                if (!row.c) return;
-                const col0 = row.c[0] ? (row.c[0].v !== null ? String(row.c[0].v).trim() : '') : '';
-                const col1 = row.c[1] ? (row.c[1].v !== null ? String(row.c[1].v).trim() : '') : '';
-                const lastCol = row.c[row.c.length - 1] ? row.c[row.c.length - 1].v : null;
+        function parseCsvData(csvText) {
+            allData = [];
+            const lines = csvText.split('\n');
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                const cols = parseCSVLine(line);
+                if (cols.length < 2) continue;
+
+                const col0 = cols[0];
+                const col1 = cols[1];
+                const lastCol = cols[cols.length - 1];
 
                 let name = col0;
                 let pts = parseInt(lastCol, 10);
 
+                // If column 0 is a rank number (e.g. "1"), grab the name from column 1
                 if (/^\d+$/.test(col0) && col1) {
                     name = col1;
                 }
@@ -480,7 +495,7 @@
                 if (!isHeader && name) {
                     allData.push({ name: name, points: pts });
                 }
-            });
+            }
 
             if (allData.length === 0) {
                 loadFallbackData();
