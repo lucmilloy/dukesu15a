@@ -59,59 +59,6 @@
             font-size: 0.95rem;
         }
 
-        /* Countdown Timer */
-        .countdown-container {
-            margin: 1.5rem auto 0 auto;
-            background: rgba(225, 29, 72, 0.1);
-            border: 1px solid rgba(225, 29, 72, 0.3);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            display: inline-block;
-            max-width: 90%;
-        }
-
-        .countdown-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .countdown-clock {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .clock-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .clock-num {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1;
-        }
-
-        .clock-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        .clock-sep {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--accent-red);
-        }
-
         .container {
             max-width: 950px;
             margin: 2rem auto;
@@ -136,26 +83,6 @@
             flex-wrap: wrap;
             gap: 1rem;
             margin-bottom: 1.25rem;
-        }
-
-        .btn {
-            background-color: var(--accent-red);
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 700;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-red-hover);
-            transform: translateY(-1px);
         }
 
         .controls-bar {
@@ -264,7 +191,7 @@
         /* Sponsors */
         .sponsors-section {
             text-align: center;
-            margin-top: 1rem;
+            margin-bottom: 2rem;
         }
 
         .sponsors-section h3 {
@@ -272,7 +199,7 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             font-weight: 700;
         }
 
@@ -283,8 +210,8 @@
         }
 
         .sponsor-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
             border-radius: 10px;
             padding: 1rem;
             height: 100px;
@@ -293,18 +220,19 @@
             justify-content: center;
             transition: all 0.2s ease;
             text-decoration: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .sponsor-card:hover {
             border-color: var(--accent-red);
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
         }
 
         .sponsor-card img {
             max-width: 100%;
             max-height: 65px;
             object-fit: contain;
-            filter: brightness(0.95);
         }
 
         footer {
@@ -322,30 +250,33 @@
     <header>
         <h1>Cumberland Dukes U15</h1>
         <p>Official Hockey Box Pool</p>
-
-        <div class="countdown-container">
-            <div class="countdown-title">Draft / Entry Deadline</div>
-            <div class="countdown-clock" id="countdown">
-                <div class="clock-unit"><span class="clock-num" id="d">00</span><span class="clock-label">Days</span></div>
-                <div class="clock-sep">:</div>
-                <div class="clock-unit"><span class="clock-num" id="h">00</span><span class="clock-label">Hours</span></div>
-                <div class="clock-sep">:</div>
-                <div class="clock-unit"><span class="clock-num" id="m">00</span><span class="clock-label">Mins</span></div>
-                <div class="clock-sep">:</div>
-                <div class="clock-unit"><span class="clock-num" id="s">00</span><span class="clock-label">Secs</span></div>
-            </div>
-        </div>
     </header>
 
     <div class="container">
+        <!-- Sponsors moved to the top -->
+        <div class="sponsors-section">
+            <h3>Proudly Sponsored By</h3>
+            <div class="sponsors-grid">
+                <a href="https://rizklawoffice.ca/" class="sponsor-card" target="_blank" title="Rizk Law">
+                    <img src="../images/Rizk Law.png" alt="Rizk Law">
+                </a>
+                <a href="https://toprankinmortgages.com/" class="sponsor-card" target="_blank" title="Top Rankin Mortgages">
+                    <img src="../images/newtoprankin.png" alt="Top Rankin Mortgages">
+                </a>
+                <a href="https://applehvac.ca/" class="sponsor-card" target="_blank" title="Apple HVAC">
+                    <img src="../images/apple.png" alt="Apple HVAC">
+                </a>
+                <a href="https://www.facebook.com/p/A-Helping-Hand-Residential-plumbing-services-100083300259407/" class="sponsor-card" target="_blank" title="A Helping Hand Residential Plumbing Services">
+                    <img src="../images/helpinghang.jpg" alt="A Helping Hand Residential Plumbing Services">
+                </a>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header">
                 <div>
                     <h2 style="font-size: 1.25rem;">Live Leaderboard</h2>
                 </div>
-                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTvvppojZlQI-3QTow7yD7XhnTj-Dq40I8mOrWLHiXPAEJrYnTIap6Kj4R0IHoEQ9WQsjisUwlZwn60/pubhtml" class="btn" target="_blank">
-                    Open Google Sheet ↗
-                </a>
             </div>
 
             <div class="controls-bar">
@@ -371,24 +302,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="sponsors-section">
-            <h3>Proudly Sponsored By</h3>
-            <div class="sponsors-grid">
-                <a href="https://rizklawoffice.ca/" class="sponsor-card" target="_blank" title="Rizk Law">
-                    <img src="../images/Rizk Law.png" alt="Rizk Law">
-                </a>
-                <a href="https://toprankinmortgages.com/" class="sponsor-card" target="_blank" title="Top Rankin Mortgages">
-                    <img src="../images/newtoprankin.png" alt="Top Rankin Mortgages">
-                </a>
-                <a href="https://applehvac.ca/" class="sponsor-card" target="_blank" title="Apple HVAC">
-                    <img src="../images/apple.png" alt="Apple HVAC">
-                </a>
-                <a href="https://www.facebook.com/p/A-Helping-Hand-Residential-plumbing-services-100083300259407/" class="sponsor-card" target="_blank" title="A Helping Hand Residential Plumbing Services">
-                    <img src="../images/helpinghang.jpg" alt="A Helping Hand Residential Plumbing Services">
-                </a>
             </div>
         </div>
     </div>
@@ -536,47 +449,6 @@
             const filtered = allData.filter(item => item.name.toLowerCase().includes(query));
             renderTable(filtered);
         }
-
-        // Countdown Timer Logic: Target 10:00 PM Eastern Time Today
-        function getTargetDeadline() {
-            // Create a date object for today set specifically to 22:00:00 (10 PM) in Eastern Time
-            // Using toLocaleString to safely evaluate Eastern offset dynamically
-            const now = new Date();
-            
-            // Build target string for today at 22:00:00 EST/EDT
-            const target = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-            target.setHours(22, 0, 0, 0);
-
-            // If 10 PM today has already passed, target 10 PM tonight (or you can adjust if it rolls over)
-            return target;
-        }
-
-        const deadline = getTargetDeadline();
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = deadline.getTime() - now;
-
-            if (distance < 0) {
-                document.getElementById('countdown').innerHTML = "<div style='color:var(--accent-red); font-weight:900; font-size: 1.5rem; letter-spacing: 1px;'>TIME'S UP!</div>";
-                return;
-            }
-
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Hours can exceed 24 if checking well in advance, but for today it shows remaining hours/mins/secs
-            const totalHours = Math.floor(distance / (1000 * 60 * 60));
-
-            document.getElementById('d').innerText = String(Math.floor(totalHours / 24)).padStart(2, '0');
-            document.getElementById('h').innerText = String(totalHours % 24).padStart(2, '0');
-            document.getElementById('m').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('s').innerText = String(seconds).padStart(2, '0');
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
 
         // Initial Fetch
         fetchStandings();
