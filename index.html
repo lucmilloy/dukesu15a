@@ -20,8 +20,8 @@
   <meta property="og:title" content="Cumberland Dukes U15A1 Hockey Team" />
   <meta property="og:description" content="Follow the Cumberland Dukes U15A1 hockey team for schedules, sponsors, and updates." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.yourwebsite.com" />
-  <meta property="og:image" content="https://www.yourwebsite.com/images/dukes-logo.png" />
+  <meta property="og:url" content="https://dukesu15a.ca" />
+  <meta property="og:image" content="https://dukesu15a.ca/images/dukes-logo.png" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -51,12 +51,13 @@
       <li><a href="index.html" class="text-yellow-500 font-bold">Home</a></li>
       <li><a href="sponsors.html" class="hover:text-yellow-500">Sponsors</a></li>
       <li><a href="sponsorship.html" class="hover:text-yellow-500">Sponsorship</a></li>
+      <li><a href="https://dukesu15a.ca/hockeypool/" class="hover:text-yellow-500">Hockey Pool</a></li>
       <li><a href="schedule.html" class="hover:text-yellow-500">Schedule</a></li>
       <li><a href="contact.html" class="hover:text-yellow-500">Contact Us</a></li>
     </ul>
   </nav>
 
-  <main class="container mx-auto p-4 md:p-10 max-w-4xl">
+  <main class="container mx-auto p-4 md:p-10 max-w-5xl">
     <header class="text-center mb-8 md:mb-12">
       <h2 class="text-3xl md:text-5xl font-bold text-gray-100 uppercase tracking-wide">
         Welcome to the Cumberland Dukes U15A1
@@ -71,22 +72,34 @@
       </p>
     </div>
 
-    <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-10 md:mb-16">
-      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-10 shadow-lg text-center max-w-xs">
+    <!-- Feature Box for Hockey Pool -->
+    <div class="bg-gradient-to-r from-red-900 via-gray-800 to-gray-900 border border-red-600 rounded-2xl p-6 md:p-8 shadow-2xl text-center mb-12 max-w-3xl mx-auto flex flex-col items-center">
+      <span class="bg-red-600 text-white font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-3">Live Standings</span>
+      <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-2">Official Dukes Hockey Pool</h3>
+      <p class="text-gray-300 mb-6 max-w-xl text-sm md:text-base">
+        Track your standings and follow along with the live leaderboard for our official team box pool fundraiser!
+      </p>
+      <a href="https://dukesu15a.ca/hockeypool/" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition duration-200 transform hover:scale-105">
+        View Live Pool Leaderboard &rarr;
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 md:mb-16">
+      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-8 shadow-lg text-center">
         <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4">Our Team</h3>
         <p class="text-gray-300">
           The <strong>Cumberland Dukes U15A1 hockey team</strong> is committed to excellence, sportsmanship, 
           and developing young athletes both on and off the ice.
         </p>
       </div>
-      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-10 shadow-lg text-center max-w-xs">
+      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-8 shadow-lg text-center">
         <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4">Join Us</h3>
         <p class="text-gray-300">
           Interested in sponsoring or supporting the Cumberland Dukes?  
           Visit our sponsorship page to learn about opportunities to get involved.
         </p>
       </div>
-      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-10 shadow-lg text-center max-w-xs">
+      <div class="bg-gray-800 bg-opacity-75 rounded-2xl p-6 md:p-8 shadow-lg text-center">
         <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4">Stay Updated</h3>
         <p class="text-gray-300">
           Check our schedule to see when and where the Dukes are playing.  
